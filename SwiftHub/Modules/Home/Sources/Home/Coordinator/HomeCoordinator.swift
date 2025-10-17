@@ -8,14 +8,12 @@
 import Core
 import UIKit
 
-class HomeCoordinator: Coordinator {
-    var navigationController: UINavigationController?
-    
-    var parent: (any Core.Coordinator)?
-    
-    var children: [any Core.Coordinator] = []
-    
-    func start() {
+public class HomeCoordinator: BaseCoordinator {
+    override public func start() {
+        guard let homeFactory = InjecterContainer.shared.resolve(HomeFactory.self) else { return }
         
+        let homeVC = homeFactory.makeHomeViewController()
+        
+        navigationController?.setViewControllers([homeVC], animated: true)
     }
 }

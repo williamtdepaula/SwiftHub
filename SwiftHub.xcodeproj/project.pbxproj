@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3AB645C02EA2AEE600CAF26B /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB645BF2EA2AEE600CAF26B /* Core */; };
+		3AB645C22EA2AEE900CAF26B /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB645C12EA2AEE900CAF26B /* Home */; };
+		3AB645C42EA2AEEB00CAF26B /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB645C32EA2AEEB00CAF26B /* Infrastructure */; };
+		3AB645C72EA2B97B00CAF26B /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB645C62EA2B97B00CAF26B /* Swinject */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3AB645802EA28C7800CAF26B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -68,6 +75,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AB645C02EA2AEE600CAF26B /* Core in Frameworks */,
+				3AB645C22EA2AEE900CAF26B /* Home in Frameworks */,
+				3AB645C42EA2AEEB00CAF26B /* Infrastructure in Frameworks */,
+				3AB645C72EA2B97B00CAF26B /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +105,7 @@
 				3AB6456B2EA28C7600CAF26B /* SwiftHub */,
 				3AB645822EA28C7800CAF26B /* SwiftHubTests */,
 				3AB6458C2EA28C7800CAF26B /* SwiftHubUITests */,
+				3AB645BE2EA2AEE300CAF26B /* Frameworks */,
 				3AB6456A2EA28C7600CAF26B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -106,6 +118,13 @@
 				3AB645892EA28C7800CAF26B /* SwiftHubUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3AB645BE2EA2AEE300CAF26B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +147,10 @@
 			);
 			name = SwiftHub;
 			packageProductDependencies = (
+				3AB645BF2EA2AEE600CAF26B /* Core */,
+				3AB645C12EA2AEE900CAF26B /* Home */,
+				3AB645C32EA2AEEB00CAF26B /* Infrastructure */,
+				3AB645C62EA2B97B00CAF26B /* Swinject */,
 			);
 			productName = SwiftHub;
 			productReference = 3AB645692EA28C7600CAF26B /* SwiftHub.app */;
@@ -211,6 +234,9 @@
 			);
 			mainGroup = 3AB645602EA28C7600CAF26B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3AB645C52EA2B97B00CAF26B /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3AB6456A2EA28C7600CAF26B /* Products */;
 			projectDirPath = "";
@@ -596,6 +622,37 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3AB645C52EA2B97B00CAF26B /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3AB645BF2EA2AEE600CAF26B /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		3AB645C12EA2AEE900CAF26B /* Home */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Home;
+		};
+		3AB645C32EA2AEEB00CAF26B /* Infrastructure */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Infrastructure;
+		};
+		3AB645C62EA2B97B00CAF26B /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AB645C52EA2B97B00CAF26B /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3AB645612EA28C7600CAF26B /* Project object */;
 }

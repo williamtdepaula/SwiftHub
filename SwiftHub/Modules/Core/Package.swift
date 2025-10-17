@@ -12,9 +12,11 @@ let package = Package(
             targets: ["Core"]
         ),
     ],
+    dependencies: [.package(url: "https://github.com/Swinject/Swinject.git", from: "2.10.0")],
     targets: [
         .target(
-            name: "Core"
+            name: "Core",
+            dependencies: ["Swinject"]
         ),
         .testTarget(
             name: "CoreTests",

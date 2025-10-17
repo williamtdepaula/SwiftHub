@@ -16,14 +16,26 @@ public protocol Coordinator: AnyObject {
     func start()
 }
 
-extension Coordinator {
-    /// Call this when the coordinator has completed its flow and should be removed from its parent.
-    func childDidFinish(_ coordinator: any Coordinator) {
-        for (index, child) in children.enumerated() {
-            if child === coordinator {
-                children.remove(at: index)
-                break
-            }
-        }
+@MainActor
+open class BaseCoordinator: Coordinator {
+    
+    public var navigationController: UINavigationController?
+    public weak var parent: (any Coordinator)?
+    public var children: [any Coordinator] = []
+
+    public init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+
+    open func start() {
+        
+    }
+
+    public func addChild(_ coordinator: any Coordinator) {
+        children.append(coordinator)
+    }
+
+    public func removeChild(_ coordinator: any Coordinator) {
+        children.removeAll { $0 === coordinator as AnyObject }
     }
 }
