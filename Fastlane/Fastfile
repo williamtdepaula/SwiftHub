@@ -2,7 +2,7 @@ fastlane_version '2.157'
 default_platform :ios
 
 platform :ios do
-  desc "Executa unit tests de todos os módulos SPM (iOS Simulator)"
+  desc "Execute unit tests"
   lane :unit_test do
     modules_dir = File.expand_path("../SwiftHub/Modules", __dir__)
     results_dir = File.expand_path("../Build", __dir__)
