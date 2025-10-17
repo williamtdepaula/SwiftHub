@@ -21,7 +21,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios unit_test
 ```
 
-Executa unit tests de todos os módulos SPM (iOS Simulator)
+Builds project and executes unit tests for all modules in SwiftHub/Modules
 
 ----
 

@@ -2,39 +2,44 @@ fastlane_version '2.157'
 default_platform :ios
 
 platform :ios do
-  desc "Execute unit tests"
-  lane :unit_test do
-    modules_dir = File.expand_path("../SwiftHub/Modules", __dir__)
-    results_dir = File.expand_path("../Build", __dir__)
-    FileUtils.mkdir_p(results_dir)
+  desc 'Builds project and executes unit tests for all modules in SwiftHub/Modules'
+  lane :unit_test do |options|
 
-    destination = "platform=iOS Simulator,name=iPhone 15 Pro,OS=17.0"
+    project_root = File.expand_path("..", Dir.pwd)
+    
+    modules_dir = File.join(project_root, "SwiftHub", "Modules")
+    result_output_dir = File.join(project_root, "fastlane", "test_output")
 
-    # Finds out modules
-    modules = Dir.entries(modules_dir).select do |entry|
-      path = File.join(modules_dir, entry)
-      File.directory?(path) && File.exist?(File.join(path, "Package.swift"))
-    end
+    FileUtils.mkdir_p(result_output_dir) unless File.directory?(result_output_dir)
 
-    failed_modules = []
+    # Finds out the project root path and discover schemes dynamically on modules_dir
+    test_schemes = Dir.glob("#{modules_dir}/*")
+                       .select { |f| File.directory?(f) }
+                       .map { |path| File.basename(path) }
 
-    modules.each do |module_name|
-      module_path = File.join(modules_dir, module_name)
-      result_path = File.join(results_dir, "#{module_name}.xcresult")
-      FileUtils.rm_rf(result_path)
+    # Runs tests of each found scheme
+    test_schemes.each do |scheme|
+      UI.message("⚙️ Running tests for scheme: #{scheme}")
+      
+      package_dir = File.join(modules_dir, scheme)
+      
+      result_bundle_path = File.join(result_output_dir, "#{scheme}.xcresult")
+      
+      # Removes olds
+      FileUtils.rm_rf(result_bundle_path) if File.exist?(result_bundle_path)
 
-      UI.message("Running tests #{module_name}")
-
-      Dir.chdir(module_path) do
-        sh("xcodebuild test \
-            -scheme #{module_name} \
-            -sdk iphonesimulator \
-            -destination '#{destination}' \
-            -resultBundlePath '#{result_path}' \
-            -quiet \
-            | xcpretty --test --color",
-          raise_on_error: true)
-      end
+      scan(
+        scheme: scheme,
+        package_path: package_dir, 
+        sdk: "iphonesimulator",
+        device: "iPhone 15 Pro (17.0)",
+        code_coverage: true,
+        prelaunch_simulator: true,
+        clean: options[:clean],
+        skip_package_dependencies_resolution: options[:skip_package_dependencies_resolution],
+        result_bundle: true,
+        result_bundle_path: result_bundle_path 
+      )
     end
   end
 end
