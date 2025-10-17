@@ -8,14 +8,7 @@ platform :ios do
     results_dir = File.expand_path("../Build", __dir__)
     FileUtils.mkdir_p(results_dir)
 
-    # Finds available simulator
-    ios_device_id = `xcrun simctl list devices | grep "iPhone" | grep -v unavailable | head -1`.match(/\(([-A-F0-9]+)\)/)&.captures&.first
-
-    if ios_device_id.nil?
-      UI.user_error!("None simulator found")
-    end
-
-    destination = "platform=iOS Simulator,id=#{ios_device_id}"
+    destination = "platform=iOS Simulator,name=iPhone 14,OS=17.0"
 
     # Finds out modules
     modules = Dir.entries(modules_dir).select do |entry|
