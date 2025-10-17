@@ -8,7 +8,7 @@ platform :ios do
     results_dir = File.expand_path("../Build", __dir__)
     FileUtils.mkdir_p(results_dir)
 
-    destination = "platform=iOS Simulator,name=iPhone 14,OS=17.0"
+    destination = "platform=iOS Simulator,name=iPhone 15 Pro,OS=17.0"
 
     # Finds out modules
     modules = Dir.entries(modules_dir).select do |entry|
