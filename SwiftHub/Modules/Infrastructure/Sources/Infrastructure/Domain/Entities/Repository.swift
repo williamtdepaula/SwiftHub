@@ -6,16 +6,16 @@
 //
 
 public struct Repository: Sendable {
-    let id: Int
-    let name: String
-    let starsCount: Int
-    let forksCount: Int
-    let description: String?
-    let owner: Owner
+    public let id: Int
+    public let name: String
+    public let starsCount: Int
+    public let forksCount: Int
+    public let description: String?
+    public let owner: Owner
     
-    struct Owner {
-        let id: Int
-        let userName: String
-        let avatarStringUrl: String
+    public struct Owner: Sendable {
+        public let id: Int
+        public let userName: String
+        public let avatarStringUrl: String
     }
 }
