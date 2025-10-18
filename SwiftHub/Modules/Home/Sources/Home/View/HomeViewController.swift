@@ -22,5 +22,9 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        Task { [weak self] in
+            await self?.viewModel.loadRepos()
+        }
     }
 }

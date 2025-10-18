@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol NetworkProtocol {
-    func request<T: Decodable>(_ endpoint: NetworkEndPoint) async throws -> T
+protocol NetworkProtocol: Sendable {
+    func request<T: Decodable>(_ endpoint: NetworkEndPoint, keyPath: String?) async throws -> T
 }
 
-final class Network {
+final class Network: NetworkProtocol {
     
-    func request<T: Decodable>(_ endpoint: NetworkEndPoint) async throws -> T {
+    func request<T: Decodable>(_ endpoint: NetworkEndPoint, keyPath: String?) async throws -> T {
         var components = URLComponents(url: endpoint.url, resolvingAgainstBaseURL: true)!
         components.queryItems = endpoint.queryItems
         
@@ -33,9 +33,23 @@ final class Network {
         }
         
         do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            return try decoder.decode(T.self, from: data)
+            let jsonObject = try JSONSerialization.jsonObject(with: data)
+            
+            var nestedObject: Any = jsonObject
+            
+            if let keyPath {
+                let keys = keyPath.split(separator: ".").map(String.init)
+                for key in keys {
+                    if let dict = nestedObject as? [String: Any], let next = dict[key] {
+                        nestedObject = next
+                    } else {
+                        throw SwiftHubError.invalidData
+                    }
+                }
+            }
+            
+            let nestedData = try JSONSerialization.data(withJSONObject: nestedObject)
+            return try JSONDecoder().decode(T.self, from: nestedData)
         } catch {
             print("Decoding error:", error)
             throw SwiftHubError.invalidData
@@ -44,13 +58,13 @@ final class Network {
 }
 
 final class FakeNetwork: NetworkProtocol {
-    var response: [RepositoryDTO]
+    let response: [RepositoryDTO]
     
     init(response: [RepositoryDTO]) {
         self.response = response
     }    
     
-    func request<T>(_ endpoint: any NetworkEndPoint) async throws -> T where T : Decodable {
+    func request<T>(_ endpoint: any NetworkEndPoint, keyPath: String?) async throws -> T where T : Decodable {
         guard let result = response as? T else { throw NSError() }
         return result
     }

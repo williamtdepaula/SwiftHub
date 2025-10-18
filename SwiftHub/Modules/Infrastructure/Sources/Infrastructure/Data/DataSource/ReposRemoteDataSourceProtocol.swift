@@ -5,6 +5,6 @@
 //  Created by Willian de Paula on 17/10/25.
 //
 
-protocol ReposRemoteDataSourceProtocol {
+protocol ReposRemoteDataSourceProtocol: Sendable {
     func fetchRepositories(page: Int) async throws -> [RepositoryDTO]
 }

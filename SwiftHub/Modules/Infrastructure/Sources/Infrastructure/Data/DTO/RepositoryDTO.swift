@@ -12,7 +12,6 @@ struct RepositoryDTO: Codable {
     let forks_count: Int
     let description: String?
     let owner: OwnerDTO
-    
 }
 
 struct OwnerDTO: Codable {

@@ -29,14 +29,14 @@ extension Repository {
     }
     static var mock04: Self {
         let owner = Owner(id: 1, userName: "JohnDoe", avatarStringUrl: "")
-        return Repository(id: 1, name: "SuperApp", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
+        return Repository(id: 4, name: "SuperApp", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
     }
     static var mock05: Self {
         let owner = Owner(id: 2, userName: "JoanaDoe", avatarStringUrl: "")
-        return Repository(id: 1, name: "An repository", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
+        return Repository(id: 5, name: "An repository", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
     }
     static var mock06: Self {
         let owner = Owner(id: 5, userName: "Some_another_one", avatarStringUrl: "")
-        return Repository(id: 1, name: "Swift studies", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
+        return Repository(id: 6, name: "Swift studies", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
     }
 }

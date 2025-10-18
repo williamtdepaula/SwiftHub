@@ -6,11 +6,21 @@
 //
 
 import Foundation
+import Infrastructure
 
 @MainActor
-public final class HomeViewModel {
-
-    func onPress() {
-        print("Clicked on me")
+final class HomeViewModel {
+    let repositoryUseCase: ReposUseCasesProtocol
+    
+    init(repositoryUseCase: ReposUseCasesProtocol) {
+        self.repositoryUseCase = repositoryUseCase
+    }
+    
+    func loadRepos() async {
+        do {
+            let repositories = try await repositoryUseCase.getRepositories(page: 1)
+        } catch {
+            print("Error:", error)
+        }
     }
 }
