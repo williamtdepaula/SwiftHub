@@ -3,7 +3,7 @@ default_platform :ios
 
 platform :ios do
   desc "Run all unit tests for all SPM modules via xcodebuild"
-  lane :unit_test do
+  lane :unit_test  do |options|
     
     modules_dir = File.expand_path("../SwiftHub/Modules", __dir__)
 
@@ -16,13 +16,24 @@ platform :ios do
     project_path = "../SwiftHub.xcodeproj" 
     destination = "'platform=iOS Simulator,name=iPhone 17 Pro'" 
 
+    # Gets from pullrequest pipeline's option
+    is_cache_hit = options[:skip_package_dependencies_resolution].to_s.downcase == 'true'
+
+    if is_cache_hit
+      xcodebuild_action = "test"
+      spm_cache_flag    = " -skipPackageDependenciesResolution"
+    else
+      xcodebuild_action = "clean test"
+      spm_cache_flag    = ""
+    end
+    
     # Runs tests of each found module
     test_schemes.each do |scheme_name|
       UI.message "================================================="
       UI.message "Running tests to module: #{scheme_name}"
       UI.message "================================================="
       
-      command = "xcodebuild test -project #{project_path} -scheme \"#{scheme_name}\" -destination #{destination}"
+      command = "xcodebuild  #{xcodebuild_action}#{spm_cache_flag} -project #{project_path} -scheme \"#{scheme_name}\" -destination #{destination}"
       
       sh(command)
     end
