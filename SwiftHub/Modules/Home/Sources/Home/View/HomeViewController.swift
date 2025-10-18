@@ -28,6 +28,14 @@ final class HomeViewController: UIViewController {
         return view
     }()
     
+    private lazy var errorView: ErrorView = {
+        let view = ErrorView()
+        view.useConstraints()
+        view.isHidden = true
+        return view
+    }()
+    
+    
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -54,16 +62,20 @@ extension HomeViewController {
     private func handleScreenState(_ state: ScreenState) {
         switch state {
         case .loading:
+            errorView.isHidden = true
             tableView.isHidden = true
             loadingAnimationView.play()
         case .loadingMore:
             tableView.isLoadingMore = true
         case .loadedSuccefully:
+            errorView.isHidden = true
             tableView.isHidden = false
             tableView.isLoadingMore = false
             loadingAnimationView.pause()
         case .error:
-            break
+            errorView.isHidden = false
+            tableView.isHidden = true
+            loadingAnimationView.pause()
         }
     }
 }
@@ -74,7 +86,8 @@ extension HomeViewController {
     private func setupBinding() {
         bindScreenState()
         bindRepositories()
-        bindingCellWillDisplay()
+        bindCellWillDisplay()
+        bindButtonTryAgain()
     }
     
     fileprivate func bindScreenState() {
@@ -95,12 +108,24 @@ extension HomeViewController {
             .disposed(by: disposeBag)
     }
     
-    fileprivate func bindingCellWillDisplay() {
+    fileprivate func bindCellWillDisplay() {
         tableView.cellWillDisplay
             .bind(
                 onNext: { [weak viewModel] indexPath in
                     Task {
                         await viewModel?.onRender(row: indexPath.row)
+                    }
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    fileprivate func bindButtonTryAgain() {
+        errorView.button.rx.tap
+            .bind (
+                onNext: { [weak viewModel] _ in
+                    Task {
+                        await viewModel?.loadRepositories()
                     }
                 }
             )
@@ -112,6 +137,7 @@ extension HomeViewController {
 extension HomeViewController: CodeView {
     func setupViewHierarchy() {
         view.addSubview(loadingAnimationView)
+        view.addSubview(errorView)
         view.addSubview(tableView)
     }
     
@@ -119,6 +145,13 @@ extension HomeViewController: CodeView {
         NSLayoutConstraint.activate([
             loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            errorView.topAnchor.constraint(equalTo: view.topAnchor),
+            errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            errorView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
