@@ -32,7 +32,7 @@ platform :ios do
         scheme: scheme,
         package_path: package_dir, 
         sdk: "iphonesimulator",
-        device: "iPhone 15 Pro (17.0)",
+        device: "iPhone 16 Pro (18.4)",
         code_coverage: true,
         prelaunch_simulator: true,
         clean: options[:clean],
