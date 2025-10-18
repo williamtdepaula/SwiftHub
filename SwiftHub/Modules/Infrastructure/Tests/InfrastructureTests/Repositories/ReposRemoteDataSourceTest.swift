@@ -10,7 +10,7 @@ import Testing
 @testable import Infrastructure
 
 struct ReposRemoteDataSourceTest {
-    @Test func isGettingRepositories() async throws {
+    @Test("Get repositories from DATASOURCE successfully") func isGettingRepositories() async throws {
         let fakeRepositories = [RepositoryDTO.mock]
         let network = FakeNetwork(response: fakeRepositories)
         let dataSource = ReposRemoteDataSourceImpl(network: network)

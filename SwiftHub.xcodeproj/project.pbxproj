@@ -21,19 +21,11 @@
 			remoteGlobalIDString = 3AB645682EA28C7600CAF26B;
 			remoteInfo = SwiftHub;
 		};
-		3AB6458A2EA28C7800CAF26B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3AB645612EA28C7600CAF26B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3AB645682EA28C7600CAF26B;
-			remoteInfo = SwiftHub;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		3AB645692EA28C7600CAF26B /* SwiftHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AB6457F2EA28C7800CAF26B /* SwiftHubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftHubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AB645892EA28C7800CAF26B /* SwiftHubUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftHubUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -89,13 +81,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3AB645862EA28C7800CAF26B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -115,7 +100,6 @@
 			children = (
 				3AB645692EA28C7600CAF26B /* SwiftHub.app */,
 				3AB6457F2EA28C7800CAF26B /* SwiftHubTests.xctest */,
-				3AB645892EA28C7800CAF26B /* SwiftHubUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,29 +163,6 @@
 			productReference = 3AB6457F2EA28C7800CAF26B /* SwiftHubTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		3AB645882EA28C7800CAF26B /* SwiftHubUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3AB6459A2EA28C7800CAF26B /* Build configuration list for PBXNativeTarget "SwiftHubUITests" */;
-			buildPhases = (
-				3AB645852EA28C7800CAF26B /* Sources */,
-				3AB645862EA28C7800CAF26B /* Frameworks */,
-				3AB645872EA28C7800CAF26B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3AB6458B2EA28C7800CAF26B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				3AB6458C2EA28C7800CAF26B /* SwiftHubUITests */,
-			);
-			name = SwiftHubUITests;
-			packageProductDependencies = (
-			);
-			productName = SwiftHubUITests;
-			productReference = 3AB645892EA28C7800CAF26B /* SwiftHubUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -216,10 +177,6 @@
 						CreatedOnToolsVersion = 26.0.1;
 					};
 					3AB6457E2EA28C7800CAF26B = {
-						CreatedOnToolsVersion = 26.0.1;
-						TestTargetID = 3AB645682EA28C7600CAF26B;
-					};
-					3AB645882EA28C7800CAF26B = {
 						CreatedOnToolsVersion = 26.0.1;
 						TestTargetID = 3AB645682EA28C7600CAF26B;
 					};
@@ -244,7 +201,6 @@
 			targets = (
 				3AB645682EA28C7600CAF26B /* SwiftHub */,
 				3AB6457E2EA28C7800CAF26B /* SwiftHubTests */,
-				3AB645882EA28C7800CAF26B /* SwiftHubUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,13 +214,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		3AB6457D2EA28C7800CAF26B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3AB645872EA28C7800CAF26B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -288,13 +237,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3AB645852EA28C7800CAF26B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -302,11 +244,6 @@
 			isa = PBXTargetDependency;
 			target = 3AB645682EA28C7600CAF26B /* SwiftHub */;
 			targetProxy = 3AB645802EA28C7800CAF26B /* PBXContainerItemProxy */;
-		};
-		3AB6458B2EA28C7800CAF26B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3AB645682EA28C7600CAF26B /* SwiftHub */;
-			targetProxy = 3AB6458A2EA28C7800CAF26B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -335,6 +272,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.william.SwiftHub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -368,6 +309,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.william.SwiftHub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -506,7 +451,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QJ2ZJ6S67T;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.william.SwiftHubTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -528,7 +473,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QJ2ZJ6S67T;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.william.SwiftHubTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -539,46 +484,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftHub.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftHub";
-			};
-			name = Release;
-		};
-		3AB6459B2EA28C7800CAF26B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QJ2ZJ6S67T;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.william.SwiftHubUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SwiftHub;
-			};
-			name = Debug;
-		};
-		3AB6459C2EA28C7800CAF26B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QJ2ZJ6S67T;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.william.SwiftHubUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SwiftHub;
 			};
 			name = Release;
 		};
@@ -608,15 +513,6 @@
 			buildConfigurations = (
 				3AB645982EA28C7800CAF26B /* Debug */,
 				3AB645992EA28C7800CAF26B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3AB6459A2EA28C7800CAF26B /* Build configuration list for PBXNativeTarget "SwiftHubUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3AB6459B2EA28C7800CAF26B /* Debug */,
-				3AB6459C2EA28C7800CAF26B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

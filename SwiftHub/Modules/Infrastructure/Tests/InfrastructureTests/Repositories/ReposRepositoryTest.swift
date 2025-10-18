@@ -10,7 +10,7 @@ import Testing
 @testable import Infrastructure
 
 struct ReposRespositoryTest {
-    @Test func isGettingRepositories() async throws {
+    @Test("Get GitHub's repositories from REPOSITORY successfully") func isGettingRepositories() async throws {
         let dataSource = FakeReposRemoteDataSourceImpl()
         let repository = ReposRepositoryImpl(remoteDataSource: dataSource)
         

@@ -10,7 +10,7 @@ import Testing
 @testable import Infrastructure
 
 struct RepositoriesUseCasesTest {
-    @Test func isGettingRepositories() async throws {
+    @Test("Get repositories from an useCase successfully") func isGettingRepositories() async throws {
         let repository = FakeReposRepositoryImpl(repositories: Repository.mocks)
         
         let useCase = ReposUseCasesImpl(reposRepository: repository)
