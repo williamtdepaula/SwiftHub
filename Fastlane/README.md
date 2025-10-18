@@ -21,7 +21,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios unit_test
 ```
 
-Execute unit tests
+Run all unit tests for all SPM modules via xcodebuild
 
 ----
 

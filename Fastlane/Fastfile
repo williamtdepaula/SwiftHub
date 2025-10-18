@@ -2,39 +2,29 @@ fastlane_version '2.157'
 default_platform :ios
 
 platform :ios do
-  desc "Execute unit tests"
+  desc "Run all unit tests for all SPM modules via xcodebuild"
   lane :unit_test do
+    
     modules_dir = File.expand_path("../SwiftHub/Modules", __dir__)
-    results_dir = File.expand_path("./test_output", __dir__)
-    FileUtils.mkdir_p(results_dir)
 
-    destination = "platform=iOS Simulator,name=iPhone 17 Pro"
-
-    # Finds out modules
-    modules = Dir.entries(modules_dir).select do |entry|
+    # Finds out schemes on modules_dir
+    test_schemes = Dir.entries(modules_dir).select do |entry|
       path = File.join(modules_dir, entry)
       File.directory?(path) && File.exist?(File.join(path, "Package.swift"))
     end
 
-    failed_modules = []
+    project_path = "../SwiftHub.xcodeproj" 
+    destination = "'platform=iOS Simulator,name=iPhone 17 Pro'" 
 
-    modules.each do |module_name|
-      module_path = File.join(modules_dir, module_name)
-      result_path = File.join(results_dir, "#{module_name}.xcresult")
-      FileUtils.rm_rf(result_path)
-
-      UI.message("Running tests #{module_name}")
-
-      Dir.chdir(module_path) do
-        sh("xcodebuild test \
-            -scheme #{module_name} \
-            -sdk iphonesimulator \
-            -destination '#{destination}' \
-            -resultBundlePath '#{result_path}' \
-            -quiet \
-            | xcpretty --test --color",
-          raise_on_error: true)
-      end
+    # Runs tests of each found module
+    test_schemes.each do |scheme_name|
+      UI.message "================================================="
+      UI.message "Running tests to module: #{scheme_name}"
+      UI.message "================================================="
+      
+      command = "xcodebuild test -project #{project_path} -scheme \"#{scheme_name}\" -destination #{destination}"
+      
+      sh(command)
     end
   end
 end
