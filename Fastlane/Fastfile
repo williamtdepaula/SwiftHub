@@ -2,37 +2,39 @@ fastlane_version '2.157'
 default_platform :ios
 
 platform :ios do
-  desc 'Runs unit tests'
-  lane :unit_test do |options|
+  desc "Execute unit tests"
+  lane :unit_test do
+    modules_dir = File.expand_path("../SwiftHub/Modules", __dir__)
+    results_dir = File.expand_path("./test_output", __dir__)
+    FileUtils.mkdir_p(results_dir)
 
-    app_scheme   = "SwiftHub"
-    test_schemes = ["Core", "Home", "Infrastructure"]
-    device_name  = "iPhone 17 Pro"
-    output_path  = "fastlane/test_output"
-    project_path = "SwiftHub.xcodeproj"
+    destination = "platform=iOS Simulator,name=iPhone 17 Pro"
 
-    scan(
-      project: project_path,
-      scheme: app_scheme,
-      destination: "platform=iOS Simulator,name=#{device_name}",
-      build_for_testing: true,
-      skip_testing: [],
-      clean: true
-    )
+    # Finds out modules
+    modules = Dir.entries(modules_dir).select do |entry|
+      path = File.join(modules_dir, entry)
+      File.directory?(path) && File.exist?(File.join(path, "Package.swift"))
+    end
 
-    test_schemes.each do |scheme_name|
-      UI.message "----------------------------------------"
-      UI.message "Running tests to module: #{scheme_name}"
-      UI.message "----------------------------------------"
+    failed_modules = []
 
-      scan(
-        package_path: "./SwiftHub/Modules/#{scheme_name}",
-        scheme: scheme_name,
-        destination: "platform=iOS Simulator,name=#{device_name}",
-        skip_build: true,
-        output_directory: "#{output_path}/#{scheme_name}",
-        output_types: "junit,html"
-      )
+    modules.each do |module_name|
+      module_path = File.join(modules_dir, module_name)
+      result_path = File.join(results_dir, "#{module_name}.xcresult")
+      FileUtils.rm_rf(result_path)
+
+      UI.message("Running tests #{module_name}")
+
+      Dir.chdir(module_path) do
+        sh("xcodebuild test \
+            -scheme #{module_name} \
+            -sdk iphonesimulator \
+            -destination '#{destination}' \
+            -resultBundlePath '#{result_path}' \
+            -quiet \
+            | xcpretty --test --color",
+          raise_on_error: true)
+      end
     end
   end
 end

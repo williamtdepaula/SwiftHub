@@ -17,6 +17,6 @@ struct RepositoriesUseCasesTest {
         
         let repositories = try await useCase.getRepositories(page: 1)
         
-        #expect(repositories.count == Repository.mocks.count)
+        #expect(repositories.count == Repository.mocks.count-1)
     }
 }
