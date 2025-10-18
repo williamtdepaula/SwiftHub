@@ -8,6 +8,7 @@
 import UIKit
 import Core
 import Home
+import Infrastructure
 import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -33,6 +34,10 @@ extension SceneDelegate {
         
         container.register(HomeFactory.self) { _ in
             HomeModuleFactory()
+        }
+        
+        container.register(ReposUseCasesProtocol.self) { _ in
+            ReposUseCasesFactory.make()
         }
         
     }

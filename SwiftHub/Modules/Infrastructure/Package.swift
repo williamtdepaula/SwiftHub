@@ -12,9 +12,15 @@ let package = Package(
             targets: ["Infrastructure"]
         ),
     ],
+    dependencies: [
+        .package(name: "Core", path: "../Core"),
+    ],
     targets: [
         .target(
-            name: "Infrastructure"
+            name: "Infrastructure",
+            dependencies: [
+                "Core",
+            ]
         ),
         .testTarget(
             name: "InfrastructureTests",

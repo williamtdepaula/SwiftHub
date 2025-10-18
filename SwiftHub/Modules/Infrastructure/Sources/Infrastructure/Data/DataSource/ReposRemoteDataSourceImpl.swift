@@ -14,7 +14,7 @@ final class ReposRemoteDataSourceImpl: ReposRemoteDataSourceProtocol {
     }
     
     func fetchRepositories(page: Int) async throws -> [RepositoryDTO] {
-        return try await network.request(RepositoryAPI.mostPopularSwiftRepositories(page: page))
+        return try await network.request(RepositoryAPI.mostPopularSwiftRepositories(page: page), keyPath: "items")
     }
 }
 

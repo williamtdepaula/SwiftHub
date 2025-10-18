@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol NetworkEndPoint {
+protocol NetworkEndPoint: Sendable {
     var url: URL { get }
     var queryItems: [URLQueryItem] { get }
 }
