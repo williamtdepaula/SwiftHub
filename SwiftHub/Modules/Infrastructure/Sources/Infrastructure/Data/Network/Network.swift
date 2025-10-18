@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Core
 
 protocol NetworkProtocol: Sendable {
     func request<T: Decodable>(_ endpoint: NetworkEndPoint, keyPath: String?) async throws -> T

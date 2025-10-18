@@ -34,7 +34,10 @@ final class HomeViewModel {
             
             currentPage += 1
         } catch {
+            guard type == .commonLoad else { return }
+            
             screenState.accept(.error)
+            repositories.accept([])
         }
     }
     
