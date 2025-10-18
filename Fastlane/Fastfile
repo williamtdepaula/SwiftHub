@@ -21,12 +21,12 @@ platform :ios do
 
     if is_cache_hit
       xcodebuild_action = "test"
-      spm_cache_flag    = " -skipPackageDependenciesResolution"
+      spm_cache_flag = " -skipPackageDependenciesResolution"
     else
       xcodebuild_action = "clean test"
-      spm_cache_flag    = ""
+      spm_cache_flag = ""
     end
-    
+
     # Runs tests of each found module
     test_schemes.each do |scheme_name|
       UI.message "================================================="
