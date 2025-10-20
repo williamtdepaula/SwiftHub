@@ -10,8 +10,8 @@ import UIKit
 struct RepositoryPresentation {
     let id: Int
     let title: String
-    let starsCount: Int
-    let forksCount: Int
+    let starsCount: String
+    let forksCount: String
     let description: String?
     let owenerUserName: String
     let owenerAvatarUrl: URL?
