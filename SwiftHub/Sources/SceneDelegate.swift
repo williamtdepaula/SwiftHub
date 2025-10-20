@@ -41,6 +41,10 @@ extension SceneDelegate {
             ReposUseCasesFactory()
         }
         
+        container.register(PullRequestUseCaseFactory.self) { _ in
+            PullRequestUseCasesFactoryImpl()
+        }
+        
     }
     
     func setupRootViewController(_ windowScene: UIWindowScene) {

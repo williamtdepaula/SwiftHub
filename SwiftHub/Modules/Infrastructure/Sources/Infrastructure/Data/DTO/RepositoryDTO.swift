@@ -16,12 +16,6 @@ struct RepositoryDTO: Codable {
     let owner: OwnerDTO
 }
 
-struct OwnerDTO: Codable {
-    let id: Int
-    let login: String
-    let avatar_url: String
-}
-
 extension RepositoryDTO {
     func toModel() -> Repository {
         return Repository(
@@ -30,11 +24,7 @@ extension RepositoryDTO {
             starsCount: stargazers_count,
             forksCount: forks_count,
             description: description,
-            owner: Repository.Owner(
-                id: owner.id,
-                userName: owner.login,
-                avatarStringUrl: owner.avatar_url
-            )
+            owner: owner.toModel()
         )
     }
 }
