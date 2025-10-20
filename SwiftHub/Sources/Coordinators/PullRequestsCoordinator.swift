@@ -20,9 +20,17 @@ public class PullRequestsCoordinator: BaseCoordinator {
     }
     
     override public func start() {
-        guard let pullRequestsFactory = InjecterContainer.shared.resolve(PullRequestsFactory.self) else { return }
+        guard
+            let pullRequestsFactory = InjecterContainer.shared.resolve(PullRequestsFactory.self),
+            let pullRequestsUseCasesFactory = InjecterContainer.shared.resolve(PullRequestUseCaseFactory.self)
+        else { return }
         
-        let vc = pullRequestsFactory.makeViewController(coordinator: self, ownerName: ownerName, repositoryName: repositoryName)
+        let vc = pullRequestsFactory.makeViewController(
+            coordinator: self,
+            pullRequestUseCases: pullRequestsUseCasesFactory.make(),
+            ownerName: ownerName,
+            repositoryName: repositoryName
+        )
         
         navigationController.pushViewController(vc, animated: true)
     }

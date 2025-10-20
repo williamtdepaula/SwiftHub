@@ -6,6 +6,7 @@
 //
 
 import UI
+import Core
 import UIKit
 import RxSwift
 import RxCocoa
@@ -88,7 +89,7 @@ extension HomeViewController {
         case .error:
             errorView.isHidden = false
             tableView.isHidden = true
-        case .loadedSuccefully:
+        default:
             break
         }
     }

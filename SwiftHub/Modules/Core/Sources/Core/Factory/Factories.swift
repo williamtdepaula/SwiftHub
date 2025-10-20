@@ -8,7 +8,7 @@ public protocol HomeFactory {
 
 @MainActor
 public protocol PullRequestsFactory {
-    func makeViewController(coordinator: PullRequestsCoordinating, ownerName: String, repositoryName: String) -> UIViewController
+    func makeViewController(coordinator: PullRequestsCoordinating, pullRequestUseCases: PullRequestUseCasesProtocol, ownerName: String, repositoryName: String) -> UIViewController
 }
 
 @MainActor

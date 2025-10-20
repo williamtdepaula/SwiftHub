@@ -9,28 +9,31 @@ import Foundation
 import Core
 
 final class PullRequestPresentationMapper {
-    static func map(entity: PullRequest) -> PullRequestPresentation {
+    static func map(entity: PullRequest, now: Date = Date()) -> PullRequestPresentation {
         return PullRequestPresentation(
             id: entity.id,
             title: entity.title,
             body: entity.body,
-            createdAtFormatted: formatRelativeDate(from: entity.createdAt),
+            createdAtFormatted: formatRelativeDate(from: entity.createdAt, now: now),
             createdBy: createdBy(entity.owner.userName),
             ownerAvatarURL: URL(string: entity.owner.avatarStringUrl)
         )
     }
     
     private static func createdBy(_ name: String) -> String {
-        "Por \(name)"
+        if name.isEmpty {
+            return ""
+        }
+        
+        return "Por \(name)"
     }
     
-    private static func formatRelativeDate(from date: String) -> String {
+    private static func formatRelativeDate(from date: String, now: Date) -> String {
         let formatter = ISO8601DateFormatter()
         guard let date = formatter.date(from: date) else {
-            return "Data inválida"
+            return ""
         }
 
-        let now = Date()
         let seconds = Int(now.timeIntervalSince(date))
 
         if seconds < 60 {

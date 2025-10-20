@@ -11,8 +11,8 @@ import Core
 public final class PullRequestsViewControllerFactory: PullRequestsFactory {
     public init() {}
     
-    public func makeViewController(coordinator: PullRequestsCoordinating, ownerName: String, repositoryName: String) -> UIViewController {
-        let viewModel = PullRequestsViewModel(coordinator: coordinator, ownerName: ownerName, repositoryName: repositoryName)
+    public func makeViewController(coordinator: PullRequestsCoordinating, pullRequestUseCases: PullRequestUseCasesProtocol, ownerName: String, repositoryName: String) -> UIViewController {
+        let viewModel = PullRequestsViewModel(coordinator: coordinator, ownerName: ownerName, repositoryName: repositoryName, pullRequestUseCases: pullRequestUseCases)
         let viewController = PullRequestsViewController(viewModel: viewModel)
         return viewController
     }

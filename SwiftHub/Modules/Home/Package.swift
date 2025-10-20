@@ -29,7 +29,9 @@ let package = Package(
                 "Core",
                 "Infrastructure",
                 "UI",
-                "RxSwift", .product(name: "RxCocoa", package: "RxSwift"),
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift"),
+                .product(name: "RxBlocking", package: "RxSwift"),
                 .product(name: "Kingfisher", package: "Kingfisher")
             ]
         ),
