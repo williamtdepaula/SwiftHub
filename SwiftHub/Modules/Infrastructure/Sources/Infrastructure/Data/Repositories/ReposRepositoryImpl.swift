@@ -5,6 +5,8 @@
 //  Created by Willian de Paula on 17/10/25.
 //
 
+import Core
+
 final class ReposRepositoryImpl: ReposRepositoryProtocol {
     let remoteDataSource: ReposRemoteDataSourceProtocol
     

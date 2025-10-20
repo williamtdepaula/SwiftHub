@@ -7,6 +7,11 @@ public protocol HomeFactory {
 }
 
 @MainActor
+public protocol RepositoryUseCaseFactory {
+    func make() -> ReposUseCasesProtocol
+}
+
+@MainActor
 public class InjecterContainer {
     public static let shared = Container()
 }

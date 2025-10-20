@@ -5,6 +5,8 @@
 //  Created by Willian de Paula on 17/10/25.
 //
 
+import Core
+
 struct RepositoryDTO: Codable {
     let id: Int
     let name: String

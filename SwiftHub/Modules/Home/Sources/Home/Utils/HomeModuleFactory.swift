@@ -7,17 +7,16 @@
 
 import UIKit
 import Core
-import Infrastructure
 
 public class HomeModuleFactory: HomeFactory {
     public init() {}
     
     public func makeHomeViewController() -> UIViewController {
         guard
-            let repository = InjecterContainer.shared.resolve(ReposUseCasesProtocol.self)
+            let repository = InjecterContainer.shared.resolve(RepositoryUseCaseFactory.self)
         else { return UIViewController() }
         
-        let viewModel = HomeViewModel(repositoryUseCase: repository)
+        let viewModel = HomeViewModel(repositoryUseCase: repository.make())
         return HomeViewController(viewModel: viewModel)
     }
 }

@@ -6,24 +6,30 @@
 //
 
 import UIKit
+import RxSwift
 
 public class ErrorView: UIView {
+    
+    public var tryAgainTap: Observable<Void> {
+        button.rx.tap.asObservable()
+    }
+    
     private lazy var label: UILabel = {
         let view = UILabel()
         view.text = "Ops! Ocorreu um erro inesperado"
         view.textAlignment = .center
         view.numberOfLines = 2
-        view.textColor = .black
+        view.textColor = Theme.Color.commonText
         view.font = .systemFont(ofSize: 16, weight: .bold)
         view.useConstraints()
         return view
     }()
     
-    public lazy var button: UIButton = {
+    private lazy var button: UIButton = {
         let view = UIButton()
         view.setTitle("Tentar novamete", for: .normal)
         view.useConstraints()
-        view.setTitleColor(.systemBlue, for: .normal)
+        view.setTitleColor(Theme.Color.title, for: .normal)
         return view
     }()
     

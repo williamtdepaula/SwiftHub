@@ -5,8 +5,8 @@
 //  Created by Willian de Paula on 17/10/25.
 //
 
+import UI
 import UIKit
-import Core
 import RxSwift
 import RxCocoa
 
@@ -15,8 +15,17 @@ final class HomeViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
-    private lazy var tableView: RepositoryTableView = {
-        let view = RepositoryTableView()
+    private lazy var tableView: InfiniteTableView<RepositoryPresentation> = {
+        
+        let view = InfiniteTableView<RepositoryPresentation>(
+            cellsToRegister: [RepositoryTableViewCell.self],
+            cellConfigurator: { [weak self] cell, repository in
+                self?.setupCell(cell: cell, repository: repository)
+            },
+            cellIdentifier: { [weak self] repository in
+                RepositoryTableViewCell.description()
+            })
+        
         view.useConstraints()
         return view
     }()
@@ -59,23 +68,30 @@ final class HomeViewController: UIViewController {
 
 // MARK: Private funcs
 extension HomeViewController {
+    private func setupCell(cell: UITableViewCell, repository: RepositoryPresentation) {
+        guard let cell = cell as? RepositoryTableViewCell else { return }
+        
+        cell.data = repository
+    }
+    
     private func handleScreenState(_ state: ScreenState) {
+        // Sets default values
+        errorView.isHidden = true
+        tableView.isHidden = false
+        tableView.isLoadingMore = false
+        loadingAnimationView.pause()
+        
         switch state {
         case .loading:
-            errorView.isHidden = true
             tableView.isHidden = true
             loadingAnimationView.play()
         case .loadingMore:
             tableView.isLoadingMore = true
-        case .loadedSuccefully:
-            errorView.isHidden = true
-            tableView.isHidden = false
-            tableView.isLoadingMore = false
-            loadingAnimationView.pause()
         case .error:
             errorView.isHidden = false
             tableView.isHidden = true
-            loadingAnimationView.pause()
+        case .loadedSuccefully:
+            break
         }
     }
 }
@@ -104,7 +120,7 @@ extension HomeViewController {
     fileprivate func bindRepositories() {
         viewModel.repositories
             .observe(on: MainScheduler.instance)
-            .bind(to: tableView.repositories)
+            .bind(to: tableView.data)
             .disposed(by: disposeBag)
     }
     
@@ -121,7 +137,7 @@ extension HomeViewController {
     }
     
     fileprivate func bindButtonTryAgain() {
-        errorView.button.rx.tap
+        errorView.tryAgainTap
             .bind (
                 onNext: { [weak viewModel] _ in
                     Task {
@@ -163,6 +179,10 @@ extension HomeViewController: CodeView {
     }
     
     func setupAddtionalConfigs() {
+        title = "MAIS POPULARES"
+        
+        view.backgroundColor = Theme.Color.background
+        
         setupBinding()
     }
     

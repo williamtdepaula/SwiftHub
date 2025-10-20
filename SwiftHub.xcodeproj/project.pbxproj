@@ -36,6 +36,7 @@
 				Modules/Core,
 				Modules/Home,
 				Modules/Infrastructure,
+				Modules/UI,
 			);
 			target = 3AB645682EA28C7600CAF26B /* SwiftHub */;
 		};

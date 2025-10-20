@@ -4,38 +4,30 @@
 import PackageDescription
 
 let package = Package(
-    name: "Home",
+    name: "UI",
     platforms: [.iOS(.v15)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Home",
-            targets: ["Home"]
+            name: "UI",
+            targets: ["UI"]
         ),
     ],
     dependencies: [
-        .package(name: "Core", path: "../Core"),
-        .package(name: "Infrastructure", path: "../Infrastructure"),
-        .package(name: "UI", path: "../UI"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMajor(from: "6.0.0"))
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Home",
+            name: "UI",
             dependencies: [
-                "Core",
-                "Infrastructure",
-                "UI",
                 "RxSwift", .product(name: "RxCocoa", package: "RxSwift")
             ]
         ),
         .testTarget(
-            name: "HomeTests",
-            dependencies: [
-                "Home"
-            ]
+            name: "UITests",
+            dependencies: ["UI"]
         ),
     ]
 )
