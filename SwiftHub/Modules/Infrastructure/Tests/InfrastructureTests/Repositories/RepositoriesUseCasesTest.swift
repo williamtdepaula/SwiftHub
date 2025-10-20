@@ -7,6 +7,7 @@
 
 import Testing
 
+import Core
 @testable import Infrastructure
 
 struct RepositoriesUseCasesTest {
