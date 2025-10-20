@@ -3,7 +3,12 @@ import Swinject
 
 @MainActor
 public protocol HomeFactory {
-    func makeHomeViewController() -> UIViewController
+    func makeHomeViewController(coordinator: HomeCoordinating) -> UIViewController
+}
+
+@MainActor
+public protocol PullRequestsFactory {
+    func makeViewController(coordinator: PullRequestsCoordinating, ownerName: String, repositoryName: String) -> UIViewController
 }
 
 @MainActor

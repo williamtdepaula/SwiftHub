@@ -44,7 +44,6 @@ final class HomeViewController: UIViewController {
         return view
     }()
     
-    
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -56,7 +55,6 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
         Task { [weak self] in
             await self?.viewModel.loadRepositories()
@@ -103,6 +101,7 @@ extension HomeViewController {
         bindScreenState()
         bindRepositories()
         bindCellWillDisplay()
+        bindOnTapCell()
         bindButtonTryAgain()
     }
     
@@ -131,6 +130,16 @@ extension HomeViewController {
                     Task {
                         await viewModel?.onRender(row: indexPath.row)
                     }
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    fileprivate func bindOnTapCell() {
+        tableView.onTapCell
+            .bind(
+                onNext: { [weak viewModel] indexPath in
+                    viewModel?.onTapCell(at: indexPath)
                 }
             )
             .disposed(by: disposeBag)
@@ -180,8 +189,6 @@ extension HomeViewController: CodeView {
     
     func setupAddtionalConfigs() {
         title = "MAIS POPULARES"
-        
-        view.backgroundColor = Theme.Color.background
         
         setupBinding()
     }

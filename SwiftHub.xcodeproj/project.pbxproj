@@ -11,6 +11,7 @@
 		3AB645C22EA2AEE900CAF26B /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB645C12EA2AEE900CAF26B /* Home */; };
 		3AB645C42EA2AEEB00CAF26B /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB645C32EA2AEEB00CAF26B /* Infrastructure */; };
 		3AB645C72EA2B97B00CAF26B /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB645C62EA2B97B00CAF26B /* Swinject */; };
+		3AD398C02EA6B4F000FF0CB5 /* PullRequests in Frameworks */ = {isa = PBXBuildFile; productRef = 3AD398BF2EA6B4F000FF0CB5 /* PullRequests */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 				Modules/Core,
 				Modules/Home,
 				Modules/Infrastructure,
+				Modules/PullRequests,
 				Modules/UI,
 			);
 			target = 3AB645682EA28C7600CAF26B /* SwiftHub */;
@@ -71,6 +73,7 @@
 				3AB645C02EA2AEE600CAF26B /* Core in Frameworks */,
 				3AB645C22EA2AEE900CAF26B /* Home in Frameworks */,
 				3AB645C42EA2AEEB00CAF26B /* Infrastructure in Frameworks */,
+				3AD398C02EA6B4F000FF0CB5 /* PullRequests in Frameworks */,
 				3AB645C72EA2B97B00CAF26B /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,6 +139,7 @@
 				3AB645C12EA2AEE900CAF26B /* Home */,
 				3AB645C32EA2AEEB00CAF26B /* Infrastructure */,
 				3AB645C62EA2B97B00CAF26B /* Swinject */,
+				3AD398BF2EA6B4F000FF0CB5 /* PullRequests */,
 			);
 			productName = SwiftHub;
 			productReference = 3AB645692EA28C7600CAF26B /* SwiftHub.app */;
@@ -548,6 +552,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AB645C52EA2B97B00CAF26B /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		3AD398BF2EA6B4F000FF0CB5 /* PullRequests */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PullRequests;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

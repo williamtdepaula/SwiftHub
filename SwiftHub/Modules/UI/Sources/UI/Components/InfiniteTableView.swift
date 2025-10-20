@@ -35,6 +35,8 @@ public final class InfiniteTableView<T>: UIView {
     
     public var cellWillDisplay = PublishSubject<IndexPath>()
     
+    public var onTapCell = PublishSubject<IndexPath>()
+    
     public var isLoadingMore: Bool = false {
         didSet {
             handleLoadingMore()
@@ -103,6 +105,13 @@ extension InfiniteTableView {
             }
         )
         .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected.subscribe(
+            onNext: { [weak onTapCell] indexPath in
+                onTapCell?.onNext(indexPath)
+            }
+        )
+        .disposed(by: disposeBag)
     }
     
     private func handleLoadingMore() {
@@ -134,5 +143,7 @@ extension InfiniteTableView: CodeView {
     
     public func setupAddtionalConfigs() {
         setupBinding()
+        
+        tableView.backgroundColor = .clear
     }
 }
