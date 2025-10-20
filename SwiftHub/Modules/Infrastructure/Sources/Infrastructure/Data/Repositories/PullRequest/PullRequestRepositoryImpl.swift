@@ -19,3 +19,20 @@ final class PullRequestRepositoryImpl: PullRequestRepositoryProtocol {
         return result.map({ $0.toModel() })
     }
 }
+
+// MARK: MOCKS
+#if DEBUG
+final class FakePullRequestRepositoryImpl: PullRequestRepositoryProtocol {
+    
+    let pullRequests: [PullRequest]
+    
+    init(pullRequests: [PullRequest]) {
+        self.pullRequests = pullRequests
+    }
+    
+    func getPullRequests(owner: String, repository: String, page: Int) async throws -> [Core.PullRequest] {
+        pullRequests
+    }
+    
+}
+#endif

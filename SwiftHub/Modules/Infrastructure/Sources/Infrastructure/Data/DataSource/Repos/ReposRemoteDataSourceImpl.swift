@@ -18,8 +18,11 @@ final class ReposRemoteDataSourceImpl: ReposRemoteDataSourceProtocol {
     }
 }
 
+#if DEBUG
+// MARK: Mocks
 final class FakeReposRemoteDataSourceImpl: ReposRemoteDataSourceProtocol {
     func fetchRepositories(page: Int) async throws -> [RepositoryDTO] {
         [RepositoryDTO.mock]
     }
 }
+#endif

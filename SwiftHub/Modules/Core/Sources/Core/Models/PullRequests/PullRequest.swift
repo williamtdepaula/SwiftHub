@@ -5,12 +5,12 @@
 //  Created by Willian de Paula on 20/10/25.
 //
 
-public struct PullRequest {
-    let id: Int
-    let title: String
-    let body: String
-    let createdAt: String
-    let owner: Owner
+public struct PullRequest: Sendable {
+    public let id: Int
+    public let title: String
+    public let body: String
+    public let createdAt: String
+    public let owner: Owner
     
     public init(id: Int, title: String, body: String, createdAt: String, owner: Owner) {
         self.id = id

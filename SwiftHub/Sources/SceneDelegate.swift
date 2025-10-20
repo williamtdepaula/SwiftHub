@@ -38,7 +38,7 @@ extension SceneDelegate {
         }
         
         container.register(RepositoryUseCaseFactory.self) { _ in
-            ReposUseCasesFactory()
+            RepositoryUseCasesFactory()
         }
         
         container.register(PullRequestUseCaseFactory.self) { _ in

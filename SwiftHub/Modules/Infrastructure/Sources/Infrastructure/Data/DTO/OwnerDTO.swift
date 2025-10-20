@@ -1,5 +1,5 @@
 //
-//  OwenerDTO.swift
+//  OwnerDTO.swift
 //  Infrastructure
 //
 //  Created by Willian de Paula on 20/10/25.

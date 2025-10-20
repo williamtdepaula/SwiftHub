@@ -16,3 +16,11 @@ final class PullRequestRemoteDataSourceImpl: PullRequestsRemoteDataSourceProtoco
         try await network.request(PullRequestsAPI.pullRequests(owner: repositoryOwner, repository: repositoryName, page: page), keyPath: nil)
     }
 }
+
+#if DEBUG
+final class FakePullRequestRemoteDataSourceImpl: PullRequestsRemoteDataSourceProtocol {
+    func fetchPullRequests(repositoryOwner: String, repositoryName: String, page: Int) async throws -> [PullRequestDTO] {
+        [PullRequestDTO.mock]
+    }
+}
+#endif

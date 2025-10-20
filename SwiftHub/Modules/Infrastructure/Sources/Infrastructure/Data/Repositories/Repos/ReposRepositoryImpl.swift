@@ -21,7 +21,8 @@ final class ReposRepositoryImpl: ReposRepositoryProtocol {
     }
 }
 
-
+// MARK: MOCKS
+#if DEBUG
 final class FakeReposRepositoryImpl: ReposRepositoryProtocol {
     let repositories: [Repository]
     
@@ -33,3 +34,4 @@ final class FakeReposRepositoryImpl: ReposRepositoryProtocol {
         repositories
     }
 }
+#endif

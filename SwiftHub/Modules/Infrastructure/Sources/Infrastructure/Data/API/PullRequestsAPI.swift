@@ -20,9 +20,9 @@ enum PullRequestsAPI: NetworkEndPoint {
     
     var queryItems: [URLQueryItem] {
         switch self {
-        case .pullRequests(let ownerId, let repositoryId, let page):
+        case .pullRequests(_, _, let page):
             return [
-                URLQueryItem(name: "page", value: page)
+                URLQueryItem(name: "page", value: String(page))
             ]
         }
     }
