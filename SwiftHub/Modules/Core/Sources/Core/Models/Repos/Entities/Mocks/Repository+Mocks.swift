@@ -16,16 +16,16 @@ extension Repository {
     ]
     
     public static var mock01: Self {
-        let owner = Owner(id: 1, userName: "JohnDoe", avatarStringUrl: "")
-        return Repository(id: 1, name: "Swift Repo", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
+        let owner = Owner(id: 1, userName: "JohnDoe", avatarStringUrl: "somelink.com.br/image.png")
+        return Repository(id: 1, name: "Swift Repo", starsCount: 1000, forksCount: 1000, description: "Small description", owner: owner)
     }
     public static var mock02: Self {
         let owner = Owner(id: 2, userName: "JoanaDoe", avatarStringUrl: "")
-        return Repository(id: 1, name: "Some repository", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
+        return Repository(id: 1, name: "Some repository", starsCount: 20000, forksCount: 20000, description: "Small description", owner: owner)
     }
     public static var mock03: Self {
         let owner = Owner(id: 3, userName: "Someone", avatarStringUrl: "")
-        return Repository(id: 1, name: "List in swift", starsCount: 0, forksCount: 0, description: "Small description", owner: owner)
+        return Repository(id: 1, name: "List in swift", starsCount: 10, forksCount: 10, description: "Small description", owner: owner)
     }
     public static var mock04: Self {
         let owner = Owner(id: 1, userName: "JohnDoe", avatarStringUrl: "")
