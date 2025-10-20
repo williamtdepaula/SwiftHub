@@ -14,7 +14,7 @@ platform :ios do
     end
 
     project_path = "../SwiftHub.xcodeproj" 
-    destination = "'platform=iOS Simulator,name=iPhone 14'" 
+    destination = "'platform=iOS Simulator,name=iPhone 17 Pro'" 
 
     # Gets from pullrequest pipeline's option
     is_cache_hit = options[:skip_package_dependencies_resolution].to_s.downcase == 'true'
