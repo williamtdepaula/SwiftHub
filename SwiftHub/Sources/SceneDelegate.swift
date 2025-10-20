@@ -10,6 +10,7 @@ import Core
 import Home
 import Infrastructure
 import Swinject
+import UI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -36,8 +37,8 @@ extension SceneDelegate {
             HomeModuleFactory()
         }
         
-        container.register(ReposUseCasesProtocol.self) { _ in
-            ReposUseCasesFactory.make()
+        container.register(RepositoryUseCaseFactory.self) { _ in
+            ReposUseCasesFactory()
         }
         
     }
@@ -47,6 +48,8 @@ extension SceneDelegate {
         
         let navigationController = UINavigationController()
         
+        setupAppearance(navigationController)
+        
         initialCoordinator = HomeCoordinator(navigationController: navigationController)
         
         window!.rootViewController = navigationController
@@ -54,5 +57,10 @@ extension SceneDelegate {
         
         initialCoordinator.start()
         
+    }
+    
+    func setupAppearance(_ navigationController: UINavigationController) {
+        Theme(navigationController: navigationController)
+            .setAppearance()
     }
 }

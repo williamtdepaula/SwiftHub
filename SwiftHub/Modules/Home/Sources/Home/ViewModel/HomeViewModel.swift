@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Infrastructure
+import Core
 import RxSwift
 import RxRelay
 

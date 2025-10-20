@@ -5,8 +5,12 @@
 //  Created by Willian de Paula on 17/10/25.
 //
 
-public final class ReposUseCasesFactory {
-    public static func make() -> ReposUseCasesProtocol {
+import Core
+
+public final class ReposUseCasesFactory: RepositoryUseCaseFactory {
+    public init() {}
+    
+    public func make() -> ReposUseCasesProtocol {
         let repoDataSource = ReposRemoteDataSourceImpl(network: Network())
         let repository = ReposRepositoryImpl(remoteDataSource: repoDataSource)
         return ReposUseCasesImpl(reposRepository: repository)

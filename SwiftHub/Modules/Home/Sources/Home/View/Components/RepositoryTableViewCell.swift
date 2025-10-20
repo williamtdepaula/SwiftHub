@@ -8,13 +8,14 @@
 import UIKit
 import Core
 import RxSwift
+import UI
 
 final class RepositoryTableViewCell: UITableViewCell {
     
     private lazy var title: UILabel = {
         let view = UILabel()
         view.useConstraints()
-        view.textColor = .black
+        view.textColor = Theme.Color.title
         view.font = .systemFont(ofSize: 16, weight: .black)
         return view
     }()
@@ -51,12 +52,13 @@ extension RepositoryTableViewCell: CodeView {
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            title.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             title.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
-    func setupAddtionalConfigs() {}
-    
+    func setupAddtionalConfigs() {
+        contentView.backgroundColor = .clear
+    }
     
 }
