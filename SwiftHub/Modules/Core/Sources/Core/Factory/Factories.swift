@@ -12,6 +12,11 @@ public protocol RepositoryUseCaseFactory {
 }
 
 @MainActor
+public protocol PullRequestUseCaseFactory {
+    func make() -> PullRequestUseCasesProtocol
+}
+
+@MainActor
 public class InjecterContainer {
     public static let shared = Container()
 }

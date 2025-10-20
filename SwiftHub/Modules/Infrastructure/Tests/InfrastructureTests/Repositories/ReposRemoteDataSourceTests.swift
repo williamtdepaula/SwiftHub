@@ -1,5 +1,5 @@
 //
-//  ReposRemoteDataSourceTest.swift
+//  ReposRemoteDataSourceTests.swift
 //  Infrastructure
 //
 //  Created by Willian de Paula on 17/10/25.

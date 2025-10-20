@@ -7,16 +7,6 @@
 
 import Core
 
-public final class ReposUseCasesFactory: RepositoryUseCaseFactory {
-    public init() {}
-    
-    public func make() -> ReposUseCasesProtocol {
-        let repoDataSource = ReposRemoteDataSourceImpl(network: Network())
-        let repository = ReposRepositoryImpl(remoteDataSource: repoDataSource)
-        return ReposUseCasesImpl(reposRepository: repository)
-    }
-}
-
 final class ReposUseCasesImpl: ReposUseCasesProtocol {
     
     private let reposRepository: ReposRepositoryProtocol

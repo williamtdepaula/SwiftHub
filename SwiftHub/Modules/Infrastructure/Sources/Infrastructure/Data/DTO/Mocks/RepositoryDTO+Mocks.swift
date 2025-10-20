@@ -5,6 +5,7 @@
 //  Created by Willian de Paula on 17/10/25.
 //
 
+#if DEBUG
 extension RepositoryDTO {
     static let mock: Self = RepositoryDTO(
         id: 1,
@@ -12,10 +13,7 @@ extension RepositoryDTO {
         stargazers_count: 42,
         forks_count: 10,
         description: "Some repository",
-        owner: OwnerDTO(
-            id: 99,
-            login: "JohnDoe",
-            avatar_url: "https://somelink.com/avatar.png"
-        )
+        owner: .mock
     )
 }
+#endif

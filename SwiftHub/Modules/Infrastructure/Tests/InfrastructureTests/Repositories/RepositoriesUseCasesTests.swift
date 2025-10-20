@@ -1,5 +1,5 @@
 //
-//  RepositoriesUseCasesTest.swift
+//  RepositoriesUseCasesTests.swift
 //  Infrastructure
 //
 //  Created by Willian de Paula on 17/10/25.
@@ -11,7 +11,7 @@ import Core
 @testable import Infrastructure
 
 struct RepositoriesUseCasesTest {
-    @Test("Get repositories from an useCase successfully") func isGettingRepositories() async throws {
+    @Test("Get repositories list from an useCase successfully") func isGettingRepositories() async throws {
         let repository = FakeReposRepositoryImpl(repositories: Repository.mocks)
         
         let useCase = ReposUseCasesImpl(reposRepository: repository)

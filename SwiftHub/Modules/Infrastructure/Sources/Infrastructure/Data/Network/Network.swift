@@ -58,10 +58,10 @@ final class Network: NetworkProtocol {
     }
 }
 
-final class FakeNetwork: NetworkProtocol {
-    let response: [RepositoryDTO]
+final class FakeNetwork<C: Sendable>: NetworkProtocol {
+    private let response: [C]
     
-    init(response: [RepositoryDTO]) {
+    init(response: [C]) {
         self.response = response
     }    
     
