@@ -31,12 +31,16 @@ final class RepositoryTableViewCell: UITableViewCell {
         return view
     }()
     
+    private lazy var titleImageView: UIImageView = {
+        let view = UIImageView()
+        view.useConstraints()
+        return view
+    }()
+    
     var data: RepositoryPresentation? {
         didSet {
             guard let data else { return }
-            
-            title.text = data.title
-            descriptionView.text = data.description
+            setupDataView(data)
         }
     }
     
@@ -54,9 +58,28 @@ final class RepositoryTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: Private funcs
+extension RepositoryTableViewCell {
+    private func setupDataView(_ data: RepositoryPresentation) {
+        title.text = data.title
+        descriptionView.text = data.description
+        setupImage(data)
+    }
+    
+    private func setupImage(_ data: RepositoryPresentation) {
+        let roundCorner = RoundCornerImageProcessor(radius: .widthFraction(0.2), roundingCorners: [.all])
+        let pngSerializer = FormatIndicatedCacheSerializer.png
+        imageView?.kf.setImage(
+            with: data.owenerAvatarUrl,
+            options: [.processor(roundCorner), .cacheSerializer(pngSerializer)]
+        )
+    }
+}
+
 // MARK: CodeView
 extension RepositoryTableViewCell: CodeView {
     func setupViewHierarchy() {
+        contentView.addSubview(titleImageView)
         contentView.addSubview(title)
         contentView.addSubview(descriptionView)
     }
@@ -65,9 +88,16 @@ extension RepositoryTableViewCell: CodeView {
         let edgeMargin = 16.0
         
         NSLayoutConstraint.activate([
-            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: edgeMargin),
+            titleImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: edgeMargin),
+            titleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: edgeMargin),
+            titleImageView.widthAnchor.constraint(equalToConstant: 32),
+            titleImageView.heightAnchor.constraint(equalToConstant: 32)
+        ])
+        
+        NSLayoutConstraint.activate([
+            title.leadingAnchor.constraint(equalTo: titleImageView.trailingAnchor, constant: 4),
             title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -edgeMargin),
-            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: edgeMargin)
+            title.topAnchor.constraint(equalTo: titleImageView.topAnchor)
         ])
         
         NSLayoutConstraint.activate([
