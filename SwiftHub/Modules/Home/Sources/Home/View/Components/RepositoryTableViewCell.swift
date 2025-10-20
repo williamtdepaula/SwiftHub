@@ -9,6 +9,7 @@ import UIKit
 import Core
 import RxSwift
 import UI
+import Kingfisher
 
 final class RepositoryTableViewCell: UITableViewCell {
     
@@ -17,6 +18,16 @@ final class RepositoryTableViewCell: UITableViewCell {
         view.useConstraints()
         view.textColor = Theme.Color.title
         view.font = .systemFont(ofSize: 16, weight: .black)
+        view.numberOfLines = 1
+        return view
+    }()
+    
+    private lazy var descriptionView: UILabel = {
+        let view = UILabel()
+        view.useConstraints()
+        view.textColor = Theme.Color.commonText
+        view.font = .systemFont(ofSize: 16, weight: .black)
+        view.numberOfLines = 2
         return view
     }()
     
@@ -25,6 +36,7 @@ final class RepositoryTableViewCell: UITableViewCell {
             guard let data else { return }
             
             title.text = data.title
+            descriptionView.text = data.description
         }
     }
     
@@ -46,14 +58,23 @@ final class RepositoryTableViewCell: UITableViewCell {
 extension RepositoryTableViewCell: CodeView {
     func setupViewHierarchy() {
         contentView.addSubview(title)
+        contentView.addSubview(descriptionView)
     }
     
     func setupConstraints() {
+        let edgeMargin = 16.0
+        
         NSLayoutConstraint.activate([
-            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            title.heightAnchor.constraint(equalToConstant: 40)
+            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: edgeMargin),
+            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -edgeMargin),
+            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: edgeMargin)
+        ])
+        
+        NSLayoutConstraint.activate([
+            descriptionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: edgeMargin),
+            descriptionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -edgeMargin),
+            descriptionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -edgeMargin),
+            descriptionView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 4)
         ])
     }
     
@@ -61,4 +82,9 @@ extension RepositoryTableViewCell: CodeView {
         contentView.backgroundColor = .clear
     }
     
+}
+
+// MARK: Constants
+extension RepositoryTableViewCell {
+    static let height: CGFloat = 200
 }
