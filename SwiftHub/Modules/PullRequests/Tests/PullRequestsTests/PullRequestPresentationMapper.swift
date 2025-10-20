@@ -23,7 +23,7 @@ struct RepositoryPresentationMapperTests {
         #expect(repositoryPresentation.body == pullRequest.body)
         #expect(repositoryPresentation.title == pullRequest.title)
         #expect(repositoryPresentation.createdAtFormatted == "26 de jan. de 2011")
-        #expect(repositoryPresentation.createdBy == "Por \(pullRequest.owner.userName)")
+        #expect(repositoryPresentation.createdBy == "Por \(pullRequest.user.userName)")
     }
     
     @Test("Validates each possible format value of createdAtFormmated", arguments: [
@@ -37,7 +37,7 @@ struct RepositoryPresentationMapperTests {
     func createdAtFormatation(from dateString: String, expectation: String) {
         let formatter = ISO8601DateFormatter()
         
-        let entity = PullRequest(id: 1, title: "Some PR", body: "Resolves something", createdAt: dateString, owner: .mock01)
+        let entity = PullRequest(id: 1, title: "Some PR", body: "Resolves something", createdAt: dateString, user: .mock01)
 
         let now = formatter.date(from: "2025-10-20T12:00:00Z")!
         let result = PullRequestPresentationMapper.map(entity: entity, now: now)
@@ -54,7 +54,7 @@ struct RepositoryPresentationMapperTests {
             title: "Some PR",
             body: "Resolves something",
             createdAt: "2025-10-20T11:59:30Z",
-            owner: .init(id: 1, userName: userName, avatarStringUrl: "")
+            user: .init(id: 1, userName: userName, avatarStringUrl: "")
         )
 
         let result = PullRequestPresentationMapper.map(entity: entity)

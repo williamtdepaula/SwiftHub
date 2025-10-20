@@ -12,7 +12,7 @@ extension PullRequestDTO {
         title: "My PullRequest",
         body: "Description about resolve something",
         created_at: "2011-01-26T19:01:12Z",
-        owner: .mock
+        user: .mock
     )
 }
 #endif

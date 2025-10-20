@@ -14,7 +14,7 @@ enum PullRequestsAPI: NetworkEndPoint {
     var url: URL {
         switch self {
         case .pullRequests(let ownerId, let repositoryId, _):
-            return  URL(string: "https://api.github.com/search/repos/\(ownerId)/\(repositoryId)/pulls")!
+            return  URL(string: "https://api.github.com/repos/\(ownerId)/\(repositoryId)/pulls")!
         }
     }
     

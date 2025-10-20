@@ -57,11 +57,12 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupView()
+        setupBinding()
+        
         Task { [weak self] in
             await self?.viewModel.loadRepositories()
         }
-        
-        setupView()
     }
 }
 
@@ -190,8 +191,6 @@ extension HomeViewController: CodeView {
     
     func setupAddtionalConfigs() {
         title = "MAIS POPULARES"
-        
-        setupBinding()
     }
     
     

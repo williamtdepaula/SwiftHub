@@ -15,8 +15,8 @@ final class PullRequestPresentationMapper {
             title: entity.title,
             body: entity.body,
             createdAtFormatted: formatRelativeDate(from: entity.createdAt, now: now),
-            createdBy: createdBy(entity.owner.userName),
-            ownerAvatarURL: URL(string: entity.owner.avatarStringUrl)
+            createdBy: createdBy(entity.user.userName),
+            ownerAvatarURL: URL(string: entity.user.avatarStringUrl)
         )
     }
     

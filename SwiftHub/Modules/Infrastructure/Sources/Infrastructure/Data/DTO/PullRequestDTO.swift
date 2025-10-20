@@ -12,14 +12,14 @@ struct PullRequestDTO: Codable {
     let title: String
     let body: String
     let created_at: String
-    let owner: OwnerDTO
+    let user: OwnerDTO
     
-    public init(id: Int, title: String, body: String, created_at: String, owner: OwnerDTO) {
+    public init(id: Int, title: String, body: String, created_at: String, user: OwnerDTO) {
         self.id = id
         self.title = title
         self.body = body
         self.created_at = created_at
-        self.owner = owner
+        self.user = user
     }
 }
 
@@ -30,7 +30,7 @@ extension PullRequestDTO {
             title: title,
             body: body,
             createdAt: created_at,
-            owner: owner.toModel()
+            user: user.toModel()
         )
     }
 }
