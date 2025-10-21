@@ -20,7 +20,7 @@ final class PullRequestRemoteDataSourceImpl: PullRequestsRemoteDataSourceProtoco
 #if DEBUG
 final class FakePullRequestRemoteDataSourceImpl: PullRequestsRemoteDataSourceProtocol {
     func fetchPullRequests(repositoryOwner: String, repositoryName: String, page: Int) async throws -> [PullRequestDTO] {
-        [PullRequestDTO.mock]
+        PullRequestDTO.mocks
     }
 }
 #endif

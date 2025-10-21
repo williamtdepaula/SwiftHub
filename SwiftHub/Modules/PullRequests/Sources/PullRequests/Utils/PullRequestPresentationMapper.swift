@@ -16,7 +16,8 @@ final class PullRequestPresentationMapper {
             body: entity.body,
             createdAtFormatted: formatRelativeDate(from: entity.createdAt, now: now),
             createdBy: createdBy(entity.user.userName),
-            ownerAvatarURL: URL(string: entity.user.avatarStringUrl)
+            ownerAvatarURL: URL(string: entity.user.avatarStringUrl),
+            state: .init(rawValue: entity.state.rawValue) ?? .none
         )
     }
     
@@ -25,7 +26,17 @@ final class PullRequestPresentationMapper {
             return ""
         }
         
-        return "Por \(name)"
+        let maxChars = 10
+        
+        let nameAchievedMaxChars = name.count > maxChars
+        
+        let byText = "Por \(name.prefix(maxChars))"
+        
+        if nameAchievedMaxChars {
+            return "\(byText)..."
+        }
+        
+        return byText
     }
     
     private static func formatRelativeDate(from date: String, now: Date) -> String {

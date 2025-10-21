@@ -7,11 +7,17 @@
 
 import Testing
 
+import Core
+
 @testable import Infrastructure
 
 struct PullRequestDTOTests {
-    @Test func convertToModel() async throws {
-        let dto = PullRequestDTO.mock
+    @Test("Conversion to entity", arguments: [
+        (dto: PullRequestDTO.mockOpen, expectedState: PullRequest.State.open),
+        (dto: PullRequestDTO.mockClosed, expectedState: PullRequest.State.closed),
+        (dto: PullRequestDTO.mockMerged, expectedState: PullRequest.State.merged),
+    ])
+    func convertToModel(dto: PullRequestDTO, expectedState: PullRequest.State) async throws {
 
         let model = dto.toModel()
 
@@ -22,5 +28,6 @@ struct PullRequestDTOTests {
         #expect(model.user.id == dto.user.id)
         #expect(model.user.userName == dto.user.login)
         #expect(model.user.avatarStringUrl == dto.user.avatar_url)
+        #expect(model.state == expectedState)
     }
 }

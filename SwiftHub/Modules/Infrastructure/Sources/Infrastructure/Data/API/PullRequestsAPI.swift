@@ -22,7 +22,8 @@ enum PullRequestsAPI: NetworkEndPoint {
         switch self {
         case .pullRequests(_, _, let page):
             return [
-                URLQueryItem(name: "page", value: String(page))
+                URLQueryItem(name: "page", value: String(page)),
+                URLQueryItem(name: "state", value: "all"),
             ]
         }
     }

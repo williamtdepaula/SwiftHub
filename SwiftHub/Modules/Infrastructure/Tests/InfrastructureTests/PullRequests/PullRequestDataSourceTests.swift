@@ -11,7 +11,7 @@ import Testing
 
 struct PullRequestRemoteDataSourceTest {
     @Test("Get pull requests from DATASOURCE successfully") func isGettingPullRequests() async throws {
-        let fakePullRequests = [PullRequestDTO.mock]
+        let fakePullRequests = PullRequestDTO.mocks
         let network = FakeNetwork(response: fakePullRequests)
         let dataSource = PullRequestRemoteDataSourceImpl(network: network)
         

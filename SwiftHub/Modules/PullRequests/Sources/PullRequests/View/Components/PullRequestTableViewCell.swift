@@ -35,38 +35,19 @@ final class PullRequestTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var titleImageView: UIImageView = {
+    private lazy var ownerImageView: UIImageView = {
         let view = UIImageView()
         view.useConstraints()
         return view
     }()
     
-    private lazy var starIcon: UIImageView = {
+    private lazy var mergeStateIcon: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "Star")
-        view.tintColor = .systemGray
         view.useConstraints()
         return view
     }()
     
-    private lazy var starsCountLabel: UILabel = {
-        let view = UILabel()
-        view.useConstraints()
-        view.textColor = .systemGray
-        view.font = .systemFont(ofSize: 16, weight: .semibold)
-        view.numberOfLines = 1
-        return view
-    }()
-    
-    private lazy var forkIcon: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "Fork")
-        view.tintColor = .systemGray
-        view.useConstraints()
-        return view
-    }()
-    
-    private lazy var forksLabel: UILabel = {
+    private lazy var createdAtLabel: UILabel = {
         let view = UILabel()
         view.useConstraints()
         view.textColor = .systemGray
@@ -108,37 +89,50 @@ final class PullRequestTableViewCell: UITableViewCell {
 // MARK: Private funcs
 extension PullRequestTableViewCell {
     private func setupDataView(_ data: PullRequestPresentation) {
+        handleTitleLeadingAnchor()
+        
         title.text = data.title
         descriptionView.text = data.body
-//        starsCountLabel.text = data.starsCount
-//        forksLabel.text = data.forksCount
         userNameLabel.text = data.createdBy
-        setupImage(data)
+        createdAtLabel.text = data.createdAtFormatted
+        setupOwnerImage(data)
+        setupMergeStateIcon()
     }
     
-    private func setupImage(_ data: PullRequestPresentation) {
-        let roundCorner = RoundCornerImageProcessor(radius: .widthFraction(0.2), roundingCorners: [.all])
-        let pngSerializer = FormatIndicatedCacheSerializer.png
+    private func setupMergeStateIcon() {
+        guard let data else { return }
+        mergeStateIcon.isHidden = false
         
-        titleImageView.kf.setImage(
-            with: data.ownerAvatarURL,
-            options: [.processor(roundCorner), .cacheSerializer(pngSerializer)]
-        ) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success(_):
-                handleImageTitleLeadingAnchor(isImageLoaded: true)
-            case .failure(_): // Case image fails to load, it sets the leading anchor to leading of cell
-                handleImageTitleLeadingAnchor(isImageLoaded: false)
-            }
-            layoutIfNeeded()
+        switch data.state {
+        case .open:
+            mergeStateIcon.image = UIImage(named: "Merge")
+            mergeStateIcon.tintColor = .systemGreen
+        case .closed:
+            mergeStateIcon.image = UIImage(named: "MergeBlocked")
+            mergeStateIcon.tintColor = .systemRed
+        case .merged:
+            mergeStateIcon.image = UIImage(named: "Merge")
+            mergeStateIcon.tintColor = .systemPurple
+        case .none:
+            mergeStateIcon.isHidden = true
         }
     }
     
-    private func handleImageTitleLeadingAnchor(isImageLoaded: Bool) {
+    private func setupOwnerImage(_ data: PullRequestPresentation) {
+        let roundCorner = RoundCornerImageProcessor(radius: .widthFraction(0.2), roundingCorners: [.all])
+        let pngSerializer = FormatIndicatedCacheSerializer.png
+        
+        ownerImageView.kf.setImage(
+            with: data.ownerAvatarURL,
+            options: [.processor(roundCorner), .cacheSerializer(pngSerializer)]
+        )
+    }
+    
+    private func handleTitleLeadingAnchor() {
         self.titleLeadingConstraint?.isActive = false
-        if isImageLoaded {
-            self.titleLeadingConstraint = self.title.leadingAnchor.constraint(equalTo: self.titleImageView.trailingAnchor, constant: 4)
+        
+        if let data, data.state != .none {
+            self.titleLeadingConstraint = self.title.leadingAnchor.constraint(equalTo: self.mergeStateIcon.trailingAnchor, constant: 4)
         } else {
             self.titleLeadingConstraint = self.title.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: MARGIN_EDGE)
         }
@@ -149,69 +143,54 @@ extension PullRequestTableViewCell {
 // MARK: CodeView
 extension PullRequestTableViewCell: CodeView {
     func setupViewHierarchy() {
-        contentView.addSubview(titleImageView)
         contentView.addSubview(title)
         contentView.addSubview(descriptionView)
+        contentView.addSubview(mergeStateIcon)
         
-        contentView.addSubview(starIcon)
-        contentView.addSubview(starsCountLabel)
+        contentView.addSubview(createdAtLabel)
         
-        contentView.addSubview(forkIcon)
-        contentView.addSubview(forksLabel)
-        
+        contentView.addSubview(ownerImageView)
         contentView.addSubview(userNameLabel)
     }
     
     func setupConstraints() {
         
         NSLayoutConstraint.activate([
-            titleImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: MARGIN_EDGE),
-            titleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: MARGIN_EDGE),
-            titleImageView.widthAnchor.constraint(equalToConstant: 24),
-            titleImageView.heightAnchor.constraint(equalToConstant: 24)
+            mergeStateIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: MARGIN_EDGE),
+            mergeStateIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: MARGIN_EDGE),
+            mergeStateIcon.widthAnchor.constraint(equalToConstant: 24),
+            mergeStateIcon.heightAnchor.constraint(equalToConstant: 24)
         ])
         
-        handleImageTitleLeadingAnchor(isImageLoaded: true)
+        handleTitleLeadingAnchor()
         
         NSLayoutConstraint.activate([
             title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -MARGIN_EDGE),
-            title.centerYAnchor.constraint(equalTo: titleImageView.centerYAnchor)
+            title.centerYAnchor.constraint(equalTo: mergeStateIcon.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
             descriptionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: MARGIN_EDGE),
             descriptionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -MARGIN_EDGE),
-            descriptionView.topAnchor.constraint(equalTo: titleImageView.bottomAnchor, constant: 6),
-            descriptionView.bottomAnchor.constraint(equalTo: starIcon.topAnchor, constant: -12)
+            descriptionView.topAnchor.constraint(equalTo: mergeStateIcon.bottomAnchor, constant: 6),
+            descriptionView.bottomAnchor.constraint(equalTo: createdAtLabel.topAnchor, constant: -12)
         ])
         
         NSLayoutConstraint.activate([
-            starIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: MARGIN_EDGE),
-            starIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -MARGIN_EDGE),
-            starIcon.widthAnchor.constraint(equalToConstant: 16),
-            starIcon.heightAnchor.constraint(equalToConstant: 16),
-        ])
-        
-        NSLayoutConstraint.activate([
-            starsCountLabel.leadingAnchor.constraint(equalTo: starIcon.trailingAnchor, constant: 4),
-            starsCountLabel.bottomAnchor.constraint(equalTo: starIcon.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            forkIcon.leadingAnchor.constraint(equalTo: starsCountLabel.trailingAnchor, constant: 16),
-            forkIcon.bottomAnchor.constraint(equalTo: starsCountLabel.bottomAnchor),
-            forkIcon.widthAnchor.constraint(equalToConstant: 16),
-            forkIcon.heightAnchor.constraint(equalToConstant: 16),
-        ])
-        
-        NSLayoutConstraint.activate([
-            forksLabel.leadingAnchor.constraint(equalTo: forkIcon.trailingAnchor, constant: 4),
-            forksLabel.bottomAnchor.constraint(equalTo: forkIcon.bottomAnchor)
+            createdAtLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: MARGIN_EDGE),
+            createdAtLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -MARGIN_EDGE)
         ])
         
         NSLayoutConstraint.activate([
             userNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -MARGIN_EDGE),
-            userNameLabel.bottomAnchor.constraint(equalTo: forksLabel.bottomAnchor)
+            userNameLabel.bottomAnchor.constraint(equalTo: createdAtLabel.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            ownerImageView.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
+            ownerImageView.trailingAnchor.constraint(equalTo: userNameLabel.leadingAnchor, constant: -8),
+            ownerImageView.widthAnchor.constraint(equalToConstant: 20),
+            ownerImageView.heightAnchor.constraint(equalToConstant: 20),
         ])
     }
     
