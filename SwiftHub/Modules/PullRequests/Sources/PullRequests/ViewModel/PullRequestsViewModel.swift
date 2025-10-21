@@ -21,13 +21,16 @@ final class PullRequestsViewModel {
     
     private var currentPage: Int = 1
     
+    private var currentFilter = BehaviorRelay<PullRequestFilter>(value: .all)
+    
     private let pullRequestsData = BehaviorRelay<[PullRequest]>(value: [])
     
     let screenState = BehaviorRelay<ScreenState>(value: .idle)
     
     var pullRequests: Observable<[PullRequestPresentation]> {
-        pullRequestsData
-            .map({ $0.map({ PullRequestPresentationMapper.map(entity: $0) }) })
+        Observable
+            .combineLatest(pullRequestsData, currentFilter)
+            .map(getPullRequestsFiltered)
     }
     
     let repositoryName: String
@@ -77,10 +80,33 @@ extension PullRequestsViewModel {
         
         coordinator?.onPressPullRequest(pullRequest)
     }
+    
+    func onChangeFilter(to filter: String) {
+        guard let filter = PullRequestFilter(rawValue: filter) else { return }
+        
+        currentFilter.accept(filter)
+    }
 }
 
 // MARK: Private funcs
 extension PullRequestsViewModel {
+    private func getPullRequestsFiltered(pullRequests: [PullRequest], filter: PullRequestFilter) -> [PullRequestPresentation] {
+        let filtered = pullRequests.filter({ pr in
+            switch filter {
+            case .open:
+                pr.state == .open
+            case .closed:
+                pr.state == .closed
+            case .merged:
+                pr.state == .merged
+            case .all:
+                true
+            }
+        })
+        
+        return filtered.map({ PullRequestPresentationMapper.map(entity: $0) })
+    }
+    
     private func updateLoadingState(_ type: LoadType, to isLoading: Bool) {
         switch isLoading {
         case true:

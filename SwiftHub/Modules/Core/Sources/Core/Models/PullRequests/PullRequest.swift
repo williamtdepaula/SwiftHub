@@ -11,6 +11,7 @@ public struct PullRequest: Sendable {
     public let body: String?
     public let createdAt: String
     public let state: State
+    public let stringUrl: String
     public let user: Owner
     
     public enum State: String, Sendable {
@@ -19,12 +20,13 @@ public struct PullRequest: Sendable {
         case merged
     }
     
-    public init(id: Int, title: String, body: String?, createdAt: String, state: State, user: Owner) {
+    public init(id: Int, title: String, body: String?, createdAt: String, stringUrl: String, state: State, user: Owner) {
         self.id = id
         self.title = title
         self.body = body
         self.createdAt = createdAt
         self.state = state
+        self.stringUrl = stringUrl
         self.user = user
     }
 }

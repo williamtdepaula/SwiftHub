@@ -15,8 +15,30 @@ final class PullRequestsViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
-    private lazy var tableView: InfiniteTableView<PullRequestPresentation> = {
+    private lazy var filterDropDown: UIButton = {
+        let button = UIButton(primaryAction: nil)
         
+        let action: (UIAction) -> () = { (action: UIAction) in
+            Task { @MainActor [weak self] in
+                self?.onChangeFilter(to: action.title)
+            }
+        }
+        
+        var menuChildren: [UIMenuElement] = []
+        
+        PullRequestFilter.allCases.forEach {
+            menuChildren.append(UIAction(title: $0.rawValue, handler: action))
+        }
+        
+        button.menu = UIMenu(options: .displayInline, children: menuChildren)
+        
+        button.showsMenuAsPrimaryAction = true
+        button.changesSelectionAsPrimaryAction = true
+        button.useConstraints()
+        return button
+    }()
+    
+    private lazy var tableView: InfiniteTableView<PullRequestPresentation> = {
         let view = InfiniteTableView<PullRequestPresentation>(
             cellsToRegister: [PullRequestTableViewCell.self],
             cellConfigurator: { [weak self] cell, pullRequest in
@@ -103,6 +125,19 @@ extension PullRequestsViewController {
         )
 
         navigationItem.leftBarButtonItem = backButton
+    }
+    
+    private func onChangeFilter(to filter: String) {
+        viewModel.onChangeFilter(to: filter)
+    }
+    
+    private func setFilterButtonToTableViewHeader() {
+        tableView.setHeaderView(filterDropDown)
+        
+        NSLayoutConstraint.activate([
+            filterDropDown.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -16),
+            filterDropDown.heightAnchor.constraint(equalToConstant: 44)
+        ])
     }
     
     @objc
@@ -197,15 +232,17 @@ extension PullRequestsViewController: CodeView {
         ])
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
     func setupAddtionalConfigs() {
         setBackButton()
+        setFilterButtonToTableViewHeader()
+        
         title = viewModel.repositoryName
         
         navigationItem.hidesBackButton = false

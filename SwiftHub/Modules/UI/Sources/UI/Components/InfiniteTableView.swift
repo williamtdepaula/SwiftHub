@@ -77,6 +77,13 @@ public final class InfiniteTableView<T>: UIView {
     }
 }
 
+// MARK: Public funcs
+extension InfiniteTableView {
+    public func setHeaderView(_ view: UIView) {
+        tableView.tableHeaderView = view
+    }
+}
+
 // MARK: Private funcs
 extension InfiniteTableView {
     private func registerCells() {

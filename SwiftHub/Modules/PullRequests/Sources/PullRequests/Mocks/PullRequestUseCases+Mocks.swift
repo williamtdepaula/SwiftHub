@@ -24,7 +24,6 @@ final class FakePullRequestUseCases: PullRequestUseCasesProtocol {
     }
     
     func getPullRequests(ownerName: String, repositoryName: String, page: Int) async throws -> [PullRequest] {
-        
         switch theCase {
         case .error:
             throw SwiftHubError.generic

@@ -8,6 +8,7 @@
 import UIKit
 import Core
 import Swinject
+import UI
 
 public class PullRequestsCoordinator: BaseCoordinator {
     let ownerName: String
@@ -37,8 +38,10 @@ public class PullRequestsCoordinator: BaseCoordinator {
 }
 
 extension PullRequestsCoordinator: PullRequestsCoordinating {
-    public func onPressPullRequest(_ pullRequest: Core.PullRequest) {
-        
+    public func onPressPullRequest(_ pullRequest: PullRequest) {
+        let webVC = WebViewController(urlString: pullRequest.stringUrl)
+        webVC.modalPresentationStyle = .pageSheet
+        navigationController.present(webVC, animated: true)
     }
     
     public func onPressToBack() {

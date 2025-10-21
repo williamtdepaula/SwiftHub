@@ -13,6 +13,7 @@ struct PullRequestDTO: Codable {
     let body: String?
     let created_at: String
     let merged_at: String?
+    let html_url: String
     let state: PullRequestStateDTO
     let user: OwnerDTO
     
@@ -21,12 +22,13 @@ struct PullRequestDTO: Codable {
         case closed
     }
     
-    public init(id: Int, title: String, body: String?, created_at: String, merged_at: String?, state: PullRequestStateDTO, user: OwnerDTO) {
+    public init(id: Int, title: String, body: String?, created_at: String, merged_at: String?, html_url: String, state: PullRequestStateDTO, user: OwnerDTO) {
         self.id = id
         self.title = title
         self.body = body
         self.created_at = created_at
         self.merged_at = merged_at
+        self.html_url = html_url
         self.state = state
         self.user = user
     }
@@ -49,6 +51,7 @@ extension PullRequestDTO {
             title: title,
             body: body,
             createdAt: created_at,
+            stringUrl: html_url,
             state: mappedState,
             user: user.toModel()
         )

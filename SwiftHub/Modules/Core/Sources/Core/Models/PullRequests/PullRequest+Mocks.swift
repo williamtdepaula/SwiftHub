@@ -13,8 +13,34 @@ extension PullRequest {
         mock03,
     ]
     
-    public static let mock01: PullRequest = PullRequest(id: 0, title: "Some PR", body: "A description about this PR", createdAt: "2011-01-26T19:01:12Z", state: .merged, user: .mock01)
-    public static let mock02: PullRequest = PullRequest(id: 0, title: "Other PR", body: "A description about this PR", createdAt: "2011-01-26T19:01:12Z", state: .closed, user: .mock02)
-    public static let mock03: PullRequest = PullRequest(id: 0, title: "PR to resolve something", body: "A description about this PR", createdAt: "2011-01-26T19:01:12Z", state: .open, user: .mock03)
+    public static let mock01: PullRequest = PullRequest(
+        id: 0,
+        title: "Some PR",
+        body: "A description about this PR",
+        createdAt: "2011-01-26T19:01:12Z",
+        stringUrl: "https://github.com",
+        state: .merged,
+        user: .mock01
+    )
+    
+    public static let mock02: PullRequest = PullRequest(
+        id: 0,
+        title: "Other PR",
+        body: "A description about this PR",
+        createdAt: "2011-01-26T19:01:12Z",
+        stringUrl: "https://github.com",
+        state: .closed,
+        user: .mock02
+    )
+    
+    public static let mock03: PullRequest = PullRequest(
+        id: 0,
+        title: "PR to resolve something",
+        body: "A description about this PR",
+        createdAt: "2011-01-26T19:01:12Z",
+        stringUrl: "https://github.com",
+        state: .open,
+        user: .mock03
+    )
 }
 #endif

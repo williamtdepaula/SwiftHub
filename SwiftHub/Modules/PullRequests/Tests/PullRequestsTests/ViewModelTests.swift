@@ -163,4 +163,46 @@ struct ViewModelTests {
         
         #expect(coordinator.onPressToBackCalled == true)
     }
+    
+    @Test("Validate filter changing", arguments: [
+        (
+            PullRequestFilter.all,
+            [
+                PullRequestPresentation.PullRequestStatePresentation.closed,
+                PullRequestPresentation.PullRequestStatePresentation.open,
+                PullRequestPresentation.PullRequestStatePresentation.merged
+            ]
+        ),
+        (
+            PullRequestFilter.closed,
+            [PullRequestPresentation.PullRequestStatePresentation.closed]
+        ),
+        (
+            PullRequestFilter.merged,
+            [PullRequestPresentation.PullRequestStatePresentation.merged]
+        ),
+        (
+            PullRequestFilter.open,
+            [PullRequestPresentation.PullRequestStatePresentation.open]
+        ),
+    ])
+    func onChangeFilter(filter: PullRequestFilter, expectedStates: [PullRequestPresentation.PullRequestStatePresentation]) async throws {
+        let coordinator = FakeHomeCoordinator()
+        let useCases = FakePullRequestUseCases(theCase: .success)
+        
+        let viewModel = PullRequestsViewModel(
+            coordinator: coordinator,
+            ownerName: "Someone",
+            repositoryName: "Repository Name",
+            pullRequestUseCases: useCases
+        )
+        
+        await viewModel.loadPullRequests()
+        
+        viewModel.onChangeFilter(to: filter.rawValue)
+        
+        let pullRequests = try viewModel.pullRequests.toBlocking().first()
+        
+        #expect(pullRequests?.contains(where: {expectedStates.contains($0.state)}) == true)
+    }
 }
