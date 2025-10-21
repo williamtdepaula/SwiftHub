@@ -37,7 +37,7 @@ struct RepositoryPresentationMapperTests {
     func createdAtFormatation(from dateString: String, expectation: String) {
         let formatter = ISO8601DateFormatter()
         
-        let entity = PullRequest(id: 1, title: "Some PR", body: "Resolves something", createdAt: dateString, state: .open, user: .mock01)
+        let entity = PullRequest(id: 1, title: "Some PR", body: "Resolves something", createdAt: dateString, stringUrl: "https://github.com", state: .open, user: .mock01)
 
         let now = formatter.date(from: "2025-10-20T12:00:00Z")!
         let result = PullRequestPresentationMapper.map(entity: entity, now: now)
@@ -55,6 +55,7 @@ struct RepositoryPresentationMapperTests {
             title: "Some PR",
             body: "Resolves something",
             createdAt: "2025-10-20T11:59:30Z",
+            stringUrl: "https://github.com",
             state: .open,
             user: .init(id: 1, userName: userName, avatarStringUrl: "")
         )

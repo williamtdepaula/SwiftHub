@@ -5,7 +5,6 @@
 //  Created by Willian de Paula on 21/10/25.
 //
 
-import Core
 import WebKit
 import RxSwift
 
