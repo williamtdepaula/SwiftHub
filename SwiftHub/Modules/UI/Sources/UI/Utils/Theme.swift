@@ -31,4 +31,19 @@ public class Theme {
 
         navigationController.view.backgroundColor = Theme.Color.background
     }
+    
+}
+
+extension Theme {
+    fileprivate final class BarButtonHandler: NSObject {
+        private let action: () -> Void
+
+        init(action: @escaping () -> Void) {
+            self.action = action
+        }
+
+        @objc func handleTap() {
+            action()
+        }
+    }
 }

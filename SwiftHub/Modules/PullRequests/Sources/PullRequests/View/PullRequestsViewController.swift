@@ -1,30 +1,51 @@
 //
-//  HomeViewController.swift
-//  Home
+//  PullRequestsViewController.swift
+//  PullRequests
 //
-//  Created by Willian de Paula on 17/10/25.
+//  Created by Willian de Paula on 20/10/25.
 //
 
+import UIKit
 import UI
 import Core
-import UIKit
 import RxSwift
-import RxCocoa
 
-final class HomeViewController: UIViewController {
-    private let viewModel: HomeViewModel
+final class PullRequestsViewController: UIViewController {
+    private let viewModel: PullRequestsViewModel
     
     private let disposeBag = DisposeBag()
     
-    private lazy var tableView: InfiniteTableView<RepositoryPresentation> = {
+    private lazy var filterDropDown: UIButton = {
+        let button = UIButton(primaryAction: nil)
         
-        let view = InfiniteTableView<RepositoryPresentation>(
-            cellsToRegister: [RepositoryTableViewCell.self],
-            cellConfigurator: { [weak self] cell, repository in
-                self?.setupCell(cell: cell, repository: repository)
+        let action: (UIAction) -> () = { (action: UIAction) in
+            Task { @MainActor [weak self] in
+                self?.onChangeFilter(to: action.title)
+            }
+        }
+        
+        var menuChildren: [UIMenuElement] = []
+        
+        PullRequestFilter.allCases.forEach {
+            menuChildren.append(UIAction(title: $0.rawValue, handler: action))
+        }
+        
+        button.menu = UIMenu(options: .displayInline, children: menuChildren)
+        
+        button.showsMenuAsPrimaryAction = true
+        button.changesSelectionAsPrimaryAction = true
+        button.useConstraints()
+        return button
+    }()
+    
+    private lazy var tableView: InfiniteTableView<PullRequestPresentation> = {
+        let view = InfiniteTableView<PullRequestPresentation>(
+            cellsToRegister: [PullRequestTableViewCell.self],
+            cellConfigurator: { [weak self] cell, pullRequest in
+                self?.setupCell(cell: cell, pullRequest: pullRequest)
             },
-            cellIdentifier: { [weak self] repository in
-                RepositoryTableViewCell.description()
+            cellIdentifier: { [weak self] pullRequest in
+                PullRequestTableViewCell.description()
             })
         
         view.useConstraints()
@@ -45,7 +66,7 @@ final class HomeViewController: UIViewController {
         return view
     }()
     
-    init(viewModel: HomeViewModel) {
+    init(viewModel: PullRequestsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,19 +82,13 @@ final class HomeViewController: UIViewController {
         setupBinding()
         
         Task { [weak self] in
-            await self?.viewModel.loadRepositories()
+            await self?.viewModel.loadPullRequests()
         }
     }
 }
 
 // MARK: Private funcs
-extension HomeViewController {
-    private func setupCell(cell: UITableViewCell, repository: RepositoryPresentation) {
-        guard let cell = cell as? RepositoryTableViewCell else { return }
-        
-        cell.data = repository
-    }
-    
+extension PullRequestsViewController {
     private func handleScreenState(_ state: ScreenState) {
         // Sets default values
         errorView.isHidden = true
@@ -94,14 +109,49 @@ extension HomeViewController {
             break
         }
     }
+    
+    private func setupCell(cell: UITableViewCell, pullRequest: PullRequestPresentation) {
+        guard let cell = cell as? PullRequestTableViewCell else { return }
+        
+        cell.data = pullRequest
+    }
+    
+    private func setBackButton() {
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+             style: .plain,
+             target: self,
+             action: #selector(handleTapBack)
+        )
+
+        navigationItem.leftBarButtonItem = backButton
+    }
+    
+    private func onChangeFilter(to filter: String) {
+        viewModel.onChangeFilter(to: filter)
+    }
+    
+    private func setFilterButtonToTableViewHeader() {
+        tableView.setHeaderView(filterDropDown)
+        
+        NSLayoutConstraint.activate([
+            filterDropDown.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -16),
+            filterDropDown.heightAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+    
+    @objc
+    private func handleTapBack() {
+        viewModel.onPressBack()
+    }
 }
 
 // MARK: Binding
-extension HomeViewController {
+extension PullRequestsViewController {
     
     private func setupBinding() {
         bindScreenState()
-        bindRepositories()
+        bindPullRequests()
         bindCellWillDisplay()
         bindOnTapCell()
         bindButtonTryAgain()
@@ -118,8 +168,8 @@ extension HomeViewController {
             .disposed(by: disposeBag)
     }
     
-    fileprivate func bindRepositories() {
-        viewModel.repositories
+    fileprivate func bindPullRequests() {
+        viewModel.pullRequests
             .observe(on: MainScheduler.instance)
             .bind(to: tableView.data)
             .disposed(by: disposeBag)
@@ -152,7 +202,7 @@ extension HomeViewController {
             .bind (
                 onNext: { [weak viewModel] _ in
                     Task {
-                        await viewModel?.loadRepositories()
+                        await viewModel?.loadPullRequests()
                     }
                 }
             )
@@ -160,8 +210,8 @@ extension HomeViewController {
     }
 }
 
-//MARK: CodeView
-extension HomeViewController: CodeView {
+// MARK: CodeView
+extension PullRequestsViewController: CodeView {
     func setupViewHierarchy() {
         view.addSubview(loadingAnimationView)
         view.addSubview(errorView)
@@ -190,9 +240,12 @@ extension HomeViewController: CodeView {
     }
     
     func setupAddtionalConfigs() {
-        title = "MAIS POPULARES"
+        setBackButton()
+        setFilterButtonToTableViewHeader()
+        
+        title = viewModel.repositoryName
+        
+        navigationItem.hidesBackButton = false
+        
     }
-    
-    
 }
-

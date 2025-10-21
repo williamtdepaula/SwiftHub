@@ -5,7 +5,7 @@
 //  Created by Willian de Paula on 18/10/25.
 //
 
-enum LoadType {
+public enum LoadType {
     case commonLoad
     case infiniteLoading
 }

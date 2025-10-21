@@ -6,10 +6,13 @@
 //
 
 import UIKit
-import Core
-import Home
-import Infrastructure
 import Swinject
+
+import Home
+import PullRequests
+
+import Core
+import Infrastructure
 import UI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -24,6 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         registerDependencies()
         setupRootViewController(windowScene)
+        setupAppearance()
     }
 
 }
@@ -35,6 +39,10 @@ extension SceneDelegate {
         
         container.register(HomeFactory.self) { _ in
             HomeModuleFactory()
+        }
+        
+        container.register(PullRequestsFactory.self) { _ in
+            PullRequestsViewControllerFactory()
         }
         
         container.register(RepositoryUseCaseFactory.self) { _ in
@@ -50,21 +58,14 @@ extension SceneDelegate {
     func setupRootViewController(_ windowScene: UIWindowScene) {
         window = UIWindow(windowScene: windowScene)
         
-        let navigationController = UINavigationController()
-        
-        setupAppearance(navigationController)
-        
-        initialCoordinator = HomeCoordinator(navigationController: navigationController)
-        
-        window!.rootViewController = navigationController
-        window!.makeKeyAndVisible()
+        initialCoordinator = AppCoordinator(window: window!)
         
         initialCoordinator.start()
         
     }
     
-    func setupAppearance(_ navigationController: UINavigationController) {
-        Theme(navigationController: navigationController)
+    func setupAppearance() {        
+        Theme(navigationController: initialCoordinator.navigationController)
             .setAppearance()
     }
 }

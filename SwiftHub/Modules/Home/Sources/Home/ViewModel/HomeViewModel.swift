@@ -14,38 +14,59 @@ import RxRelay
 final class HomeViewModel {
     private let repositoryUseCase: ReposUseCasesProtocol
     
+    private weak var coordinator: HomeCoordinating?
+    
     private var currentPage = 1
     
-    let repositories = BehaviorRelay<[RepositoryPresentation]>(value: [])
-    let screenState = BehaviorRelay<ScreenState>(value: .loadedSuccefully)
+    private let repositoriesData = BehaviorRelay<[Repository]>(value: [])
     
-    init(repositoryUseCase: ReposUseCasesProtocol) {
-        self.repositoryUseCase = repositoryUseCase
+    var repositories: Observable<[RepositoryPresentation]> {
+        repositoriesData
+                .map { $0.map(RepositoryPresentationMapper.map) }
     }
     
+    let screenState = BehaviorRelay<ScreenState>(value: .idle)
+    
+    init(repositoryUseCase: ReposUseCasesProtocol, coordinator: HomeCoordinating) {
+        self.repositoryUseCase = repositoryUseCase
+        self.coordinator = coordinator
+    }
+}
+
+// MARK: Public funcs
+extension HomeViewModel {
     func loadRepositories(type: LoadType = .commonLoad) async {
         updateLoadingState(type, to: true)
         do {
             let result = try await repositoryUseCase.getRepositories(page: currentPage)
-            let currentRepositories = repositories.value
-            let mappedResult = result.map({ RepositoryPresentationMapper.map(entity: $0) })
-            repositories.accept(currentRepositories + mappedResult)
+            let currentRepositories = repositoriesData.value
+            repositoriesData.accept(currentRepositories + result)
             updateLoadingState(type, to: false)
             
             currentPage += 1
         } catch {
-            guard type == .commonLoad else { return }
-            
-            screenState.accept(.error)
-            repositories.accept([])
+            if type == .commonLoad {
+                screenState.accept(.error)
+                repositoriesData.accept([])
+            } else {
+                screenState.accept(.filled)
+            }
         }
     }
     
     func onRender(row: Int) async {
         await loadMoreIfPossible(renderedRow: row)
     }
-}
+    
+    func onTapCell(at indexPath: IndexPath) {
+        guard indexPath.row < repositoriesData.value.count else { return }
 
+        let repository = repositoriesData.value[indexPath.row]
+        
+        coordinator?.onPressRepository(ownerName: repository.owner.userName, repositoryName: repository.name)
+    }
+}
+    
 // MARK: Private funcs
 extension HomeViewModel {
     private func updateLoadingState(_ type: LoadType, to isLoading: Bool) {
@@ -53,7 +74,7 @@ extension HomeViewModel {
         case true:
             screenState.accept(type == .commonLoad ? .loading : .loadingMore)
         case false:
-            screenState.accept(.loadedSuccefully)
+            screenState.accept(.filled)
         }
     }
     
@@ -64,9 +85,9 @@ extension HomeViewModel {
     }
     
     private func canLoadMoreItems(_ renderedRow: Int) -> Bool {
-        let hasContent = !repositories.value.isEmpty
-        let isNotLoadingMore = screenState.value == .loadedSuccefully
-        let achievedMinimumRow = renderedRow == repositories.value.count - 5
+        let hasContent = !repositoriesData.value.isEmpty
+        let isNotLoadingMore = screenState.value == .filled
+        let achievedMinimumRow = renderedRow == repositoriesData.value.count - 5
         
         return hasContent && isNotLoadingMore && achievedMinimumRow
     }

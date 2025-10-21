@@ -1,5 +1,5 @@
 //
-//  RepositoryUseCase.swift
+//  RepositoryUseCase+Mocks.swift
 //  Home
 //
 //  Created by Willian de Paula on 18/10/25.
@@ -8,10 +8,12 @@
 import Infrastructure
 import Core
 
+#if DEBUG
 final class ReposUseCasesMock: ReposUseCasesProtocol {
     enum Cases {
         case success
         case error
+        case errorOn(page: Int)
     }
     
     let theCase: Cases
@@ -26,6 +28,13 @@ final class ReposUseCasesMock: ReposUseCasesProtocol {
             throw SwiftHubError.generic
         case .success:
             return Repository.mocks
+        case .errorOn(let maxPage):
+            if page == maxPage {
+                throw SwiftHubError.generic
+            }
+            
+            return Repository.mocks
         }
     }
 }
+#endif

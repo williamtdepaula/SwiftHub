@@ -6,8 +6,9 @@
 //
 
 public enum ScreenState {
+    case idle
     case loading
     case loadingMore
-    case loadedSuccefully
+    case filled
     case error
 }

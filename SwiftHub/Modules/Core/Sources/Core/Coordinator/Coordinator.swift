@@ -9,17 +9,20 @@ import UIKit
 
 @MainActor
 public protocol Coordinator: AnyObject {
-    var navigationController: UINavigationController? { get set }
+    var navigationController: UINavigationController { get set }
     var parent: (any Coordinator)? { get set }
     var children: [any Coordinator] { get set }
     
     func start()
+    
+    func addChild(_ coordinator: any Coordinator)
+    func removeChild(_ coordinator: any Coordinator)
 }
 
 @MainActor
 open class BaseCoordinator: Coordinator {
     
-    public var navigationController: UINavigationController?
+    public var navigationController: UINavigationController
     public weak var parent: (any Coordinator)?
     public var children: [any Coordinator] = []
 

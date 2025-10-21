@@ -216,6 +216,7 @@ extension RepositoryTableViewCell: CodeView {
     }
     
     func setupAddtionalConfigs() {
+        selectionStyle = .none
         contentView.backgroundColor = Theme.Color.background
     }
     

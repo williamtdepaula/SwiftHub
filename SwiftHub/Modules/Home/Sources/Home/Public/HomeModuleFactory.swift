@@ -11,12 +11,12 @@ import Core
 public class HomeModuleFactory: HomeFactory {
     public init() {}
     
-    public func makeHomeViewController() -> UIViewController {
+    public func makeHomeViewController(coordinator: HomeCoordinating) -> UIViewController {
         guard
             let repository = InjecterContainer.shared.resolve(RepositoryUseCaseFactory.self)
         else { return UIViewController() }
         
-        let viewModel = HomeViewModel(repositoryUseCase: repository.make())
+        let viewModel = HomeViewModel(repositoryUseCase: repository.make(), coordinator: coordinator)
         return HomeViewController(viewModel: viewModel)
     }
 }
