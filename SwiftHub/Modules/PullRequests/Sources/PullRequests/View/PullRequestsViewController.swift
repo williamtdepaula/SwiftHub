@@ -18,9 +18,10 @@ final class PullRequestsViewController: UIViewController {
     private lazy var filterDropDown: UIButton = {
         let button = UIButton(primaryAction: nil)
         
-        let action: (UIAction) -> () = { (action: UIAction) in
-            Task { @MainActor [weak self] in
-                self?.onChangeFilter(to: action.title)
+        let action: (UIAction) -> () = { [weak self] (action: UIAction) in
+            guard let self else { return }
+            Task { @MainActor in
+                onChangeFilter(to: action.title)
             }
         }
         
@@ -44,7 +45,7 @@ final class PullRequestsViewController: UIViewController {
             cellConfigurator: { [weak self] cell, pullRequest in
                 self?.setupCell(cell: cell, pullRequest: pullRequest)
             },
-            cellIdentifier: { [weak self] pullRequest in
+            cellIdentifier: { _ in
                 PullRequestTableViewCell.description()
             })
         
