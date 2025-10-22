@@ -1,6 +1,6 @@
 # SwiftHub
 
-SwiftHub is an iOS app that allows you to explore the most popular Swift repositories on GitHub. By selecting a repository, you can view its Pull Requests (PRs), filter them by **Todos**, **Aberto**, **Fechado**, and **Mesclado**, and open each PR in a modal with a web view. The app leverages GitHub's APIs for this functionality.
+SwiftHub is an iOS app to browse the most popular Swift repositories on GitHub. You can tap a repository to see its Pull Requests (PRs), filter them by **Todos**, **Aberto**, **Fechado**, and **Mesclado**, and open each PR in a modal web view. The app uses GitHub APIs to get the data.
 
 ---
 
