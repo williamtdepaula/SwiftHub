@@ -35,6 +35,7 @@ SwiftHub is built with **Swift**, using **MVVM**, **Coordinator Pattern**, **Cle
 - **UIKit** – Core UI framework.
 - **RxSwift** – Reactive programming for data binding and event handling.
 - **Swinject** – Dependency injection for better decoupling and testability.
+- **Kingfisher** - Loads and cache images.
 - **Swift Testing** – Unit tests with **100% coverage** for:
   - ViewModels
   - Mappers
