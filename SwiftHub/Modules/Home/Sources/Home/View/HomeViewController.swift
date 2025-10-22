@@ -23,7 +23,7 @@ final class HomeViewController: UIViewController {
             cellConfigurator: { [weak self] cell, repository in
                 self?.setupCell(cell: cell, repository: repository)
             },
-            cellIdentifier: { [weak self] repository in
+            cellIdentifier: { _ in
                 RepositoryTableViewCell.description()
             })
         
